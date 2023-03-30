@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'index_3_home' %}">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Contact</strong></div>
+        </div>
+      </div>
+    </div>  
+
+    <div id="ffff" class="site-section " style="width:100%;height:100vh;
+    display: flex; align-items: center;justify-content: center;;" >
+      <div class="container">
+        <div class="row">
+          <div id="ff" class="col-md-12 text-center" >
+            <span class="icon-check_circle display-3 text-success"></span>
+            <div class="" style="background-color: rgb(66, 232, 29);"><h1 class="display-3 text-black">Thank you!</h1></div>
+            <h3 class="lead mb-5" style="width:500px;">Your order was placed successfully.</h3>
+            <a href="{% url 'user_order' %}" class="btn btn-sm btn-primary" style="height: 30px;"><button style="width:500px;">Track Orders</button> </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}

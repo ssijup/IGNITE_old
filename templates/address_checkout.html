@@ -1,0 +1,236 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+
+
+        <!--====== App Content ======-->
+        <div class="app-content">
+
+            <!--====== Section 1 ======-->
+            <div class="u-s-p-y-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="breadcrumb">
+                            <div class="breadcrumb__wrap">
+                                <ul class="breadcrumb__list">
+                                    <li class="has-separator">
+
+                                        <a href="index.html">Home</a></li>
+                                    <li class="is-marked">
+
+                                        <a href="dash-address-book.html">My Account</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section 1 ======-->
+
+
+            <!--====== Section 2 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="dash">
+                        <div class="container">
+                            <div class="row">
+                                <div class=" col-md-12">
+
+                                    <!--====== Dashboard Features ======-->
+                                    <!-- <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+                                        <div class="dash__pad-1">
+
+                                            <span class="dash__text u-s-m-b-16">Hello, John Doe</span>
+                                            <ul class="dash__f-list">
+                                                <li>
+
+                                                    <a href="dashboard.html">Manage My Account</a></li>
+                                                <li>
+
+                                                    <a href="dash-my-profile.html">My Profile</a></li>
+                                                <li>
+
+                                                    <a class="dash-active" href="dash-address-book.html">Address Book</a></li>
+                                                <li>
+
+                                                    <a href="dash-track-order.html">Track Order</a></li>
+                                                <li>
+
+                                                    <a href="dash-my-order.html">My Orders</a></li>
+                                                <li>
+
+                                                    <a href="dash-payment-option.html">My Payment Options</a></li>
+                                                <li>
+
+                                                    <a href="dash-cancellation.html">My Returns & Cancellations</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="dash__box dash__box--bg-white dash__box--shadow dash__box--w">
+                                        <div class="dash__pad-1">
+                                            <ul class="dash__w-list">
+                                                <li>
+                                                    <div class="dash__w-wrap">
+
+                                                        <span class="dash__w-icon dash__w-icon-style-1"><i class="fas fa-cart-arrow-down"></i></span>
+
+                                                        <span class="dash__w-text">4</span>
+
+                                                        <span class="dash__w-name">Orders Placed</span></div>
+                                                </li>
+                                                <li>
+                                                    <div class="dash__w-wrap">
+
+                                                        <span class="dash__w-icon dash__w-icon-style-2"><i class="fas fa-times"></i></span>
+
+                                                        <span class="dash__w-text">0</span>
+
+                                                        <span class="dash__w-name">Cancel Orders</span></div>
+                                                </li>
+                                                <li>
+                                                    <div class="dash__w-wrap">
+
+                                                        <span class="dash__w-icon dash__w-icon-style-3"><i class="far fa-heart"></i></span>
+
+                                                        <span class="dash__w-text">0</span>
+
+                                                        <span class="dash__w-name">Wishlist</span></div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--====== End - Dashboard Features ======
+                                <!-- </div>-->
+                                
+                                 <div class="container-fluid"> 
+                                   <!-- <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                                        <div class="dash__pad-2">
+                                            <div class="dash__address-header">
+                                                <h1 class="dash__h1">Address Book</h1>
+                                                <div>
+
+                                                    <span class="dash__link dash__link--black u-s-m-r-8">
+
+                                                        <a href="dash-address-make-default.html">Make default shipping address</a></span>
+
+                                                    <span class="dash__link dash__link--black">
+
+                                                        <a href="dash-address-make-default.html">Make default shipping address</a></span></div>
+                                            </div>
+                                        </div>
+                                    </div> --> 
+                                    <div class="btn-block">
+                                    <div class="deliver text-center btn-block"><h3>Select Delivery Address</h1></div>
+                                    </div>
+                                    <div class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius u-s-m-b-30">
+                                        <div class="dash__table-2-wrap gl-scroll">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                            <table class="dash__table-2">
+                                                <thead>
+                                                    <tr>
+                                                        <!-- <th>Action</th> -->
+                                                        <th>Select</th>
+                                                        <th>Full Name</th>
+                                                        <th> Street Address</th>
+                                                        <th>City</th>
+                                                        <th>Phone Number</th>
+                                                        <!-- <th>Status</th> -->
+                                                    </tr>
+                                                </thead>
+                                                {% for i in adresslist_user %}
+                                                <tbody>
+                                                    <tr>
+                                                       
+                                                                
+                                                        <!-- <td> <a class="address-book-edit btn--e-transparent-platinum-b-2" href="dash-address-edit.html">Edit</a></td> -->
+                                                            <td><input class="form-check-input" type="radio" name="adressRadios" id="exampleRadios1" value= "{{ i.id }}" checked> select</td>
+                                                        
+                                                            <!-- <td><a class="address-book-edit btn--e-transparent-platinum-b-2" href="dash-address-edit.html">seclect</a></td> -->
+                                                        <td>{{ i.name }}</td>
+                                                        <td>{{ i.street_address }}</td>
+                                                        <td>{{ i.city }}</td>
+                                                        <td>{{ i.mobnumber }}</td>
+
+                                                    </tr>
+                                                </tbody>
+                                                {% endfor %}
+                                            </table>
+                                            <!-- <input type="summit" value="summit"> -->
+                                           <div class="col-12 ">
+                                                <div class="row">
+                                                    <button class="mini-link btn--e-brand-b-2" type="submit"><span><h5>Deliver to this address</h5></span></a></div></button>                                        
+                                                
+                                                </div>
+                                               
+                                            </div>
+
+                                        </form>
+                                        
+                                        </div>
+                                        <div class="container-fluid  col-md-12">
+
+                                            <a class="dash__custom-link btn--e-brand-b-2" href="{% url 'add_address' %}"><i class="fas fa-plus u-s-m-r-8"></i>
+    
+                                                <span>Add New Address</span></a></div>
+                                    </div>
+                                    
+                                    <!-- <div class="container-fluid col-md-9"> -->
+
+                                        
+                                            
+                                <!-- </div> -->
+                                <!-- <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                                    <div class="f-cart__pad-box" style="background-color: rgb(139, 127, 127);">
+                                        
+                                        <div class="u-s-m-b-30">
+                                            <div>
+
+                                                <button  class="dash__custom-link btn--e-brand-b-2" type="submit"> Order Summary <Summary></Summary></button></div>
+                                        </div>
+                                            <table class="f-cart__table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>SHIPPING</td>
+                                                        <td>$4.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>TAX</td>
+                                                        <td>$0.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>SUBTOTAL</td>
+                                                        <td>$379.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>GRAND TOTAL</td>
+                                                        <td>$379.00</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div>
+
+                                            <!-- <button class="btn btn--e-brand-b-2" type="submit"> Order Summary <Summary></Summary></button></div> -->
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 2 ======-->
+        </div>
+        <!--====== End - App Content ======-->
+
+
+        <!--====== Main Footer ======-->
+       
+
+{% endblock%}

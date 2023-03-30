@@ -1,0 +1,251 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+
+
+        <!--====== End - Main Header ======-->
+
+
+        <!--====== App Content ======-->
+        <div class="app-content">
+
+            <!--====== Section 1 ======-->
+            <div class="u-s-p-y-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="breadcrumb">
+                            <div class="breadcrumb__wrap">
+                                <ul class="breadcrumb__list">
+                                    <li class="has-separator">
+
+                                        <a href="index.html">Home</a></li>
+                                    <li class="is-marked">
+
+                                        <a href="signup.html">Signup</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section 1 ======-->
+
+
+            <!--====== Section 2 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-60">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary">CREATE AN ACCOUNT</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
+
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row row--center">
+                            <div class="col-lg-6 col-md-8 u-s-m-b-30">
+                                <div class="l-f-o">
+                                    <div class="l-f-o__pad-box">
+                                        <h1 class="gl-h1">PERSONAL INFORMATION</h1>
+                                        <form class="l-f-o__form" method="POST" onsubmit="return validate()" >
+                                            {% csrf_token %}
+                                            <!-- <div class="gl-s-api">
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="gl-s-api__btn gl-s-api__btn--fb" type="button"><i class="fab fa-facebook-f"></i>
+
+                                                        <span>Signup with Facebook</span></button></div>
+                                                <div class="u-s-m-b-30">
+
+                                                    <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button"><i class="fab fa-google"></i>
+
+                                                        <span>Signup with Google</span></button></div>
+                                            </div> -->
+                                            
+                                            
+                                            
+                                           
+
+                                           
+                                                <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="reg-lname"> NAME *</label>
+                                                <h6 id="name_err" class="" style="color: red;"></h6>
+                                                <input onkeyup="namevalidate()" id="reg-name" name="user_name" class="input-text input-text--primary-style" type="text"  placeholder="Enter Name"></div>
+                                            <!-- <div class="gl-inline">
+                                                <div class="u-s-m-b-30">
+
+                                                   
+
+                                                    <label class="gl-label" for="gender">GENDER</label><select class="select-box select-box--primary-style u-w-100" id="gender">
+                                                        <option selected>Select</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="male">Female</option>
+                                                    </select></div>
+                                            </div>   -->
+
+                                            <div class="u-s-m-b-30">
+
+                                                <label  class="gl-label" for="reg-email">Mob Number *</label>
+                                                <h6 class="" id="num_err" style="color: red;"></h1>
+
+                                                <input onkeyup="validatenumber()" id="reg-num" name="phone_number" class="input-text input-text--primary-style" type="text"  placeholder="Enter your Number"></div>
+                                            
+                                            <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="reg-email">E-MAIL *</label>
+                                                <h6 class="" id="email_err" style="color: red;"></h1>                                 
+                                                <input onkeyup="validateemail()" name="user_email" class="input-text input-text--primary-style" type="text" id="reg-email" placeholder="Enter E-mail"></div>
+
+                                                <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="gender">GENDER</label>
+                                                <select  name="ugender" class="select-box select-box--primary-style u-w-100" id="gender">
+                                                    {% for i in gender %}
+                                                    <option >{{i.0}}</option>
+                                                   {% endfor %}
+                                                </select> 
+
+                                            </div>
+
+                                            
+                                                <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="reg-password">PASSWORD *</label>
+                                                <h6 class="" id="Password" style="color: red;"></h1>
+
+                                                <input id="reg-password" onkeyup="passwordValidate()" name="user_password1" class="input-text input-text--primary-style" type="password"  placeholder="Enter Password"></div>
+                                                <div class="u-s-m-b-30">
+
+                                                       <label class="gl-label" for="reg-password">REENTER PASSWORD *</label>
+                                                   
+                                                   
+                                                        <h6 class="" id="Password2" style="color: red;"></h1>
+                                                   
+                                                   
+                                                    <input onkeyup='passwordValidate2()' name="user_password2" class="input-text input-text--primary-style" type="password" id="password2" placeholder="Enter Password"></div>
+                                            
+                                                    <div class="u-s-m-b-15">
+
+                                                <button class="btn btn--e-transparent-brand-b-2" type="submit" onclick="namevalidate(),passwordValidate(),validatenumber() , validateemail() ,passwordValidate() , passwordValidate2">SIGN UP</button></div>
+
+                                            <a class="gl-link" href="#"></a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 2 ======-->
+        </div>
+        <!--====== End - App Content ======-->
+
+
+        <!--====== Main Footer ======-->
+
+    <!--====== End - Main App ======-->
+
+
+    <!--====== Google Analytics: change UA-XXXXX-Y to be your site's ID ======-->
+
+
+
+<!-- form validation -->
+    <script>
+        function validate(){
+            if (namevalidate() && validatenumber() && validateemail() && passwordValidate() && passwordValidate() && passwordValidate2()){
+                return true
+
+            }else{
+                return false
+            }
+        }
+        function namevalidate(){
+            let name=document.getElementById('reg-name').value;
+            console.log(name)
+        
+            if (name == '' || name.length <3){
+                document.getElementById('name_err').innerHTML='Please enter your name'
+                return false
+            }else{
+                document.getElementById("name_err").innerHTML = "";
+                return true
+            }
+        }
+        
+        function validatenumber(){
+            let num=document.getElementById('reg-num').value;
+            if (num=='' || num.length !=10){
+                document.getElementById('num_err').innerHTML='Number should be 10 digit number';
+                return false
+
+            }
+            else if(/^[0-9]+$/.test(num) == false) {
+                document.getElementById("num_err").innerHTML = "please enter a valid number";
+                return false
+            }
+            else{
+                document.getElementById("num_err").innerHTML = "";
+                return true
+            }
+        }
+        function validateemail(){
+            let email=document.getElementById("reg-email").value;
+            if(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email) == false){
+                document.getElementById("email_err").innerHTML="Enter a valid email";
+                return false
+            }
+            else if (email == ""){
+                document.getElementById("email_err").innerHTML="Please enter a email";
+                return false
+            }
+            else{
+                document.getElementById("email_err").innerHTML="";
+                    return true
+            }
+
+        }
+        function passwordValidate() {
+      password = document.getElementById("reg-password").value;
+      if (password.length < 8) {
+        document.getElementById("Password").innerHTML = "please enter minimum 8 digits";
+        return false
+      } else {
+        document.getElementById("Password").innerHTML = "";
+        return true
+      }
+    }
+        function passwordValidate2() {
+            let password2 = document.getElementById("password2").value;
+            if (password2 != password || password2 == "") {
+                document.getElementById("Password2").innerHTML = "Password not match";
+                return false
+            } else {
+                document.getElementById("Password2").innerHTML = "";
+                return true
+        }
+    }
+        
+    </script>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+               
+
+<div>
+    <canvas id="myChart"></canvas>
+  </div>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    const ctx = document.getElementById('myChart');
+  
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [{% for i in chart_prod %} '{{i.voption_prod_key.book_title}}', {% endfor %}],
+        datasets: [{
+          label: ' In Stock',
+          data: [{% for i in chart_prod %} '{{i.product_stock}}', {% endfor %} ],
+          borderWidth: 1,
+          
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+<!-- <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
+                        The charts below have been customized - for further customization options, please visit the <a
+                            target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
+                            documentation</a>.</p> -->
+
+  {% endblock %}

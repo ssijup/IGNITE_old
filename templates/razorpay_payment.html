@@ -1,0 +1,193 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+
+{% load socialaccount %}
+{% providers_media_js %}
+
+
+
+        <!--====== End - Main Header ======-->
+
+
+        <!--====== App Content ======-->
+        <div class="app-content">
+
+            <!--====== Section 1 ======-->
+            <div class="u-s-p-y-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="breadcrumb">
+                            <div class="breadcrumb__wrap">
+                                <ul class="breadcrumb__list">
+                                    <li class="has-separator">
+
+                                        <a href="index.html">Home</a></li>
+                                    <li class="is-marked">
+
+                                        <a href="signin.html">Signin</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section 1 ======-->
+
+
+            <!--====== Section 2 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-60">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary">PAY 000 RAZOR PAY</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
+                
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row row--center">
+                            <div class="col-lg-6 col-md-8 u-s-m-b-30">
+                                <div class="l-f-o">
+                                    <div class="l-f-o__pad-box">
+                                        <!-- <h1 class="gl-h1">I'M NEW CUSTOMER</h1>
+
+                                        <span class="gl-text u-s-m-b-30">By creating an account with our store, you will be able to move through the checkout process faster, store shipping addresses, view and track your orders in your account and more.</span> -->
+                                        <!-- <div class="u-s-m-b-15">
+
+                                            <a class="l-f-o__create-link btn--e-transparent-brand-b-2" href="{% url 'user_signup' %}">CREATE AN ACCOUNT</a></div> -->
+                                        <!-- <h1 class="gl-h1">SIGNIN</h1> -->
+
+                                        <!-- <span class="gl-text u-s-m-b-30">If you have an account with us, please log in.</span> -->
+                                        <form class="l-f-o__form" method ="POST">
+                                            {% csrf_token %}
+                                            <!-- <div class="gl-s-api">
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="gl-s-api__btn gl-s-api__btn--fb" type="button"><i class="fab fa-facebook-f"></i>
+
+                                                        <span>Signin with Facebook</span></button></div>
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button"><i class="fab fa-google"></i>
+
+                                                        <span><a href="{% provider_login_url "google" %}">Sign in with Google</a></span></button></div>
+                                            </div> -->
+                                            <div class="u-s-m-b-30">
+
+                                                <!-- <label class="gl-label" for="login-email">Enter your number*</label> 
+
+                                                <input name ="user_email"class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter number" ></div> -->
+                                                <div class="u-s-m-b-30">
+
+                                                    <label class="gl-label" for="login-email">Enter OTP*</label> 
+    
+                                                    <input name ="c_otp" class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter number" ></div>
+                                                <div class="u-s-m-b-15">
+
+                                                    <button id="rzp-button1" type="submit" class="l-f-o__create-link btn--e-transparent-brand-b-2" href="">PAY</button></div>
+                                            <!-- <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="login-password">PASSWORD *</label>
+
+                                                <input name ="user_password"  class="input-text input-text--primary-style" type="password" id="login-password" placeholder="Enter Password"></div>
+                                                <div>
+                                                    <h5 class="" >{{u_blocked}}</h5>
+                                                </div>
+                                            <div class="gl-inline">
+                                                
+                                                <div class="u-s-m-b-30">
+
+                                                    <button class="btn btn--e-transparent-brand-b-2" type="submit">LOGIN</button></div>
+                                                <div class="u-s-m-b-30">
+
+                                                    <a class="gl-link" href="lost-password.html">Lost Your Password?</a></div>
+                                            </div>
+                                            <div class="u-s-m-b-30"> -->
+
+                                                <!--====== Check Box ======-->
+                                                <div class="check-box">
+
+                                                    <input type="checkbox" id="remember-me">
+                                                    <div class="check-box__state check-box__state--primary">
+
+                                                        <label class="" for="remember-me">  </label></div>
+                                                </div>
+                                                <!--====== End - Check Box ======-->
+                                                <div>{% if messages %}
+                                                    <ul class="messages">
+                                                        {% for message in messages %}
+                                                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    {% endif %}</div>
+                                            </div>
+                                        </form>
+                                        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+ <script>
+var options = {
+    "key": "rzp_test_RRhMTrJphOc3D7", // Enter the Key ID generated from the Dashboard
+    "amount": "{{razorpay_amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "{{payment.id}}", //     "callback_url": "" https://eneqd3r9zrjok.x.pipedream.net/     This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+    "prefill": {
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    },
+    "handler": function(response) {
+        // Redirect the user to another page after payment success
+        window.location.href = "http://127.0.0.1:8000/razorpay_payment?payment_method=" + payment_method;
+    }
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+
+</script>
+<script>
+    var payment_method = "{{ payment_method }}";
+</script>
+ 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 2 ======-->
+        </div>
+        <!--====== End - App Content ======-->
+
+
+        <!--====== Main Footer ======-->
+        
+
+{% endblock %}

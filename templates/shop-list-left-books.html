@@ -1,0 +1,767 @@
+{% extends 'base.html' %}
+{% load static %}
+{% include 'pagination.html' with page=list %}
+
+{% block search %}
+                        <!--====== Search Form ======-->
+                        <form class="main-form" >
+                            {% csrf_token %}
+
+                            <label for="main-search"></label>
+
+                            <!-- <input  name="product_search"  class="input-text input-text--border-radius input-text--style-6" type="search"  placeholder="Search here"> -->
+                            <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Search">
+                            <button id="search-input"  class="btn btn--icon fas fa-search main-search-button" type="submit"></button>
+                        </form>
+                        <!--====== End - Search Form ======-->
+{% endblock %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+        <!--====== App Content ======-->
+        <div class="app-content">
+            <script src="{% static 'js/myjs.js' %}"></script>
+            <!--====== Section 1 ======-->
+            <div class="u-s-p-y-90">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-12">
+                            <div class="shop-w-master">
+                                <h1 class="shop-w-master__heading u-s-m-b-30"><i class="fas fa-filter u-s-m-r-8"></i>
+
+                                    <span>FILTERS</span></h1>
+                                <div class="shop-w-master__sidebar sidebar--bg-snow">
+                                    <div class="u-s-m-b-30">
+                                        <div class="shop-w">
+                                            <div class="shop-w__intro-wrap">
+                                                <h1 class="shop-w__h">BY CATEGORY</h1>
+
+                                                <span class="fas fa-minus shop-w__toggle" data-target="#s-category" data-toggle="collapse"></span>
+                                            </div>
+                                            <div class="shop-w__wrap collapse show" id="s-category">
+                                                 <!-- <ul class="shop-w__category-list gl-scroll">
+                                                    <li class="has-list">
+                                                        {% for i in cate_filter %}
+                                                        <button id="my-button" name="aa"><a href="{% url 'shop_list_left_books' %}?uid={{ i.id }}">{{i.cate_name}}</a></button><br>
+                                                        {% endfor %} -->
+
+
+                                                        <ul class="has-list shop-w__category-list gl-scroll">
+                                                            {% for i in cate_filter %}
+                                                            <input class="filter_pro_bycate" type="radio" name="cate_proname"  pid="{{i.cate_name}}" data-product-id="{{list.id}}" {% if forloop.first %}checked{% endif %}>  
+                                                    <!-- <li class='has-list'> -->
+                                                            <span style="color: black;">{{i.cate_name}}</span><br>
+                                                        <!-- </li> -->
+                                                            {% endfor %}
+                                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="u-s-m-b-30">
+                                        <div class="shop-w">
+                                            <div class="shop-w__intro-wrap">
+                                                <h1 class="shop-w__h">RATING</h1>
+
+                                                <span class="fas fa-minus shop-w__toggle" data-target="#s-rating" data-toggle="collapse"></span>
+                                            </div>
+                                            <div class="shop-w__wrap collapse show" id="s-rating">
+                                                <ul class="shop-w__list gl-scroll">
+                                                    <li>
+                                                        <div class="rating__check">
+
+                                                            <input type="checkbox">
+                                                            <div class="rating__check-star-wrap"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                                        </div>
+
+                                                        <span class="shop-w__total-text">(2)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="rating__check">
+
+                                                            <input type="checkbox">
+                                                            <div class="rating__check-star-wrap"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+
+                                                                <span>& Up</span></div>
+                                                        </div>
+
+                                                        <span class="shop-w__total-text">(8)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="rating__check">
+
+                                                            <input type="checkbox">
+                                                            <div class="rating__check-star-wrap"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                                <span>& Up</span></div>
+                                                        </div>
+
+                                                        <span class="shop-w__total-text">(10)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="rating__check">
+
+                                                            <input type="checkbox">
+                                                            <div class="rating__check-star-wrap"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                                <span>& Up</span></div>
+                                                        </div>
+
+                                                        <span class="shop-w__total-text">(12)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="rating__check">
+
+                                                            <input type="checkbox">
+                                                            <div class="rating__check-star-wrap"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                                <span>& Up</span></div>
+                                                        </div>
+
+                                                        <span class="shop-w__total-text">(1)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="u-s-m-b-30">
+                                        <div class="shop-w">
+                                            <div class="shop-w__intro-wrap">
+                                                <h1 class="shop-w__h">PRICE</h1>
+
+                                                <span class="fas fa-minus shop-w__toggle" data-target="#s-price" data-toggle="collapse"></span>
+                                            </div>
+                                            <div class="shop-w__wrap collapse show" id="s-price">
+                                                <!-- <form class="shop-w__form-p"> -->
+                                                    <div class="shop-w__form-p-wrap">
+                                                        <!-- <label for="customRange2" class="form-label">Example range</label> --> 
+                                                                       <!--  <input type="range" class="form-range" value="20" min="0" max="100" id="customRange2"> -->
+                                                                       <div class="card mb-4">
+                                                                        <h6 class="card-header"></h6>
+                                                                        <!-- <form action="" method="post"> -->
+                                                                            {% csrf_token %}
+                                                                            <!-- <div class="list-group list-group-flush"> 
+                                                                                <table>
+                                                                                  <tr>
+                                                                                    <input type="range" id="maxPrice" value="{{minmax_price.price__min}}" max={{minmax_price.price__max}} min={{minmax_price.price__min}}  oninput="maxPrice.value=this.value" />
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td style="color:black"><p>Select From:</p></td>
+                                                                                    <td>{{minmax_price.price__min}}-{{minmax_price.price__max}}</td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td style="color:black">Max:</td>
+                                                                                    <td>
+                                                                                      <input type="number" value="{{minmax_price.price__max}}" max='10000' min={{minmax_price.price__min}} class="form-control" id="rangeInput" oninput="minPrice.value=this.value" />
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td></td>
+                                                                                    <td>
+                                                                                      <div type="submit" id="priceFilterBtn" class="btn btn-info btn-block btn-lg gradient-custom-4 text-body" style="background-color: orangered; width: 50px; height: 30px; padding-top: 5px;">
+                                                                                        <span style="color:white;">Apply</span>
+                                                                                      </div>
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </table>
+                                                                              </div> -->
+
+                                                                              <!-- <div class="list-group list-group-flush"> 
+                                                                                <table>
+                                                                                  <tr>
+                                                                                    <td><input type="range" id="maxPriceRange" value="{{minmax_price.price__min}}" max="{{minmax_price.price__max}}" min="{{minmax_price.price__min}}" oninput="maxPriceInput.value=this.value"></td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td style="color:black"><p>Select From:</p></td>
+                                                                                    <td>{{minmax_price.price__min}}-{{minmax_price.price__max}}</td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td style="color:black">Max:</td>
+                                                                                    <td><input type="number" value="{{minmax_price.price__max}}" max="{{minmax_price.price__max}}" min="{{minmax_price.price__min}}" class="form-control" id="maxPriceInput" oninput="maxPriceRange.value=this.value"></td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td></td>
+                                                                                    <td><div type="submit" id="priceFilterBtn" class="btn btn-info btn-block btn-lg gradient-custom-4 text-body" style="background-color: orangered; width: 50px; height: 30px; padding-top: 5px;"><span style="color:white;">Apply</span></div></td>
+                                                                                  </tr>
+                                                                                </table>
+                                                                              </div>
+ -->
+
+
+
+
+
+
+
+
+                                                                              <!-- <div class="list-group list-group-flush"> 
+                                                                                <table>
+                                                                                  <tr>
+                                                                                    <td><input type="range" id="maxPriceRange" value="{{minmax_price.price__min}}" max={{minmax_price.price__max}} min={{minmax_price.price__min}} oninput="rangeInput.value = maxPrice.value"></td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td style="color:black"><p>Select From:</p></td>
+                                                                                    <td>{{minmax_price.price__min}}-{{minmax_price.price__max}}</td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td style="color:black">Max:</td>
+                                                                                    <td>
+                                                                                      <input type="number" value="{{minmax_price.price__max}}" max='10000' min={{minmax_price.price__min}} class="form-control" id="maxPriceInput" oninput="maxPrice.value = rangeInput.value">
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                  <tr>
+                                                                                    <td></td>
+                                                                                    <td>
+                                                                                      <div type="submit" id="priceFilterBtn" class="btn btn-info btn-block btn-lg gradient-custom-4 text-body" style="background-color: orangered; width: 50px; height: 30px; padding-top: 5px;">
+                                                                                        <span style="color:white;">Apply</span>
+                                                                                      </div>
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </table>
+                                                                              </div>
+                                                                               -->
+
+
+
+                                                                              <!-- <div class="list-group list-group-flush"> 
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td><input type="range" id="maxPrice" value="{{minmax_price.price__min}}" max="{{minmax_price.price__max}}" min="{{minmax_price.price__min}}" oninput="rangeInput.value=this.value" /></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td style="color:black"><p>Select From:</p></td>
+                                                                                        <td>{{minmax_price.price__min}}-{{minmax_price.price__max}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td style="color:black">Max:</td>
+                                                                                        <td>
+                                                                                            <input type="number" value="{{minmax_price.price__max}}" max='10000' min="{{minmax_price.price__min}}" class="form-control" id="rangeInput" oninput="maxPrice.value=this.value" />
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td></td>
+                                                                                        <td>
+                                                                                            <div type="submit" id="priceFilterBtn" class="btn btn-info btn-block btn-lg gradient-custom-4 text-body" style="background-color: orangered; width: 50px; height: 30px; padding-top: 5px;">
+                                                                                                <span style="color:white;">Apply</span>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </div> -->
+                                                                            
+
+                                                                              <!-- <div class="list-group list-group-flush"> 
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td><input type="range" id="maxPrice" value="{{minmax_price.price__min}}" max="{{minmax_price.price__max}}" min="{{minmax_price.price__min}}" oninput="rangeInput.value=this.value"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td style="color:black"><p>Select From:</p></td>
+                                                                                        <td>{{minmax_price.price__min}}-{{minmax_price.price__max}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td style="color:black">Max:</td>
+                                                                                        <td><input type="number" value="{{minmax_price.price__max}}" max='10000' min="{{minmax_price.price__min}}" class="form-control" id="rangeInput" oninput="maxPrice.value=this.value"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td></td>
+                                                                                        <td>
+                                                                                            <div type="submit" id="priceFilterBtn" class="btn btn-info btn-block btn-lg gradient-custom-4 text-body" style="background-color: orangered; width: 50px; height: 30px; padding-top: 5px;">
+                                                                                                <span style="color:white;">Apply</span>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </div>
+                                                                             -->
+
+
+
+                                                                        <div class="list-group list-group-flush"> 
+                                                                                <table>
+                                                                                <tr><input type="range" id="maxPrice" value="{{minmax_price.price__min}}" max={{minmax_price.price__max}} min={{minmax_price.price__min}} ondrag="rangedis()" id="range1" oninput="rrangeInput.value=this.value" /></tr>
+                                                                                <tr><td style="color:black"><p>Select From:</p></td><td> {{minmax_price.price__min}}-{{minmax_price.price__max}}</td></tr>
+                                                                            
+
+                                                                                <tr><td style="color:black">Max:</td><td><input type="number" value="{{minmax_price.price__min}}" max={{minmax_price.price__max}} min={{minmax_price.price__min}} class="form-control" id="rrangeInput"   oninput="maxPrice.value=this.value"  /></td></tr>
+                                                                                    <h1><div  id="maPrice"></div></h1>
+
+                                                                                    
+
+
+                                                                                <tr><td style="color:black">Min:</td><td><input type="number" value="{{minmax_price.price__min}}" max={{minmax_price.price__max}} min={{minmax_price.price__min}} class="form-control" id="rangeInput"   oninput="maxPrice.value=this.value"  /></td></tr>
+                                                                                <tr><td></td><td><div type="submit" id="priceFilterBtn" class="btn btn-info btn-block btn-lg gradient-custom-4 text-body" style="background-color: orangered; width: 50px; height: 30px; padding-top: 5px;"><span style="color:white;">Apply</span></div></td></tr>
+                                                                                </table>
+                                                                        </div>
+
+
+                                                                    <!-- </form > -->
+                                                            </div>
+
+                                                        <!-- <div>
+
+                                                            <label for="price-min"></label>
+
+                                                            <input class="input-text input-text--primary-style" type="text" id="price-min" placeholder="Min ">
+                                                        </div>
+                                                        <div>
+
+                                                            <label for="price-max"></label>
+
+                                                            <input class="input-text input-text--primary-style" type="text" id="price-max" placeholder="Max">
+                                                        </div>
+                                                        <div>
+
+                                                            <button class="btn btn--icon fas fa-angle-right btn--e-transparent-platinum-b-2" type="submit"></button>
+                                                        </div> -->
+                                                    </div>
+                                                <!-- </form> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="u-s-m-b-30">
+                                        <div class="shop-w">
+                                            <div class="shop-w__intro-wrap">
+                                                <h1 class="shop-w__h">MANUFACTURER</h1>
+
+                                                <span class="fas fa-minus shop-w__toggle" data-target="#s-manufacturer" data-toggle="collapse"></span>
+                                            </div>
+                                            <div class="shop-w__wrap collapse show" id="s-manufacturer">
+                                                <ul class="shop-w__list-2">
+                                                    <li>
+                                                        <div class="list__content">
+
+                                                            <input type="checkbox" checked>
+
+                                                            <span>Calvin Klein</span></div>
+
+                                                        <span class="shop-w__total-text">(23)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="list__content">
+
+                                                            <input type="checkbox">
+
+                                                            <span>Diesel</span></div>
+
+                                                        <span class="shop-w__total-text">(2)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="list__content">
+
+                                                            <input type="checkbox">
+
+                                                            <span>Polo</span></div>
+
+                                                        <span class="shop-w__total-text">(2)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="list__content">
+
+                                                            <input type="checkbox">
+
+                                                            <span>Tommy Hilfiger</span></div>
+
+                                                        <span class="shop-w__total-text">(9)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="list__content">
+
+                                                            <input type="checkbox">
+
+                                                            <span>Ndoge</span></div>
+
+                                                        <span class="shop-w__total-text">(3)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- <div class="u-s-m-b-30">
+                                        <div class="shop-w">
+                                            <div class="shop-w__intro-wrap">
+                                                <h1 class="shop-w__h">COLOR</h1>
+
+                                                <span class="fas fa-minus shop-w__toggle" data-target="#s-color" data-toggle="collapse"></span>
+                                            </div>
+                                            <div class="shop-w__wrap collapse show" id="s-color">
+                                                <ul class="shop-w__list gl-scroll">
+                                                    <li>
+                                                        <div class="color__check">
+
+                                                            <input type="checkbox" id="jet">
+
+                                                            <label class="color__check-label" for="jet" style="background-color: #333333"></label></div>
+
+                                                        <span class="shop-w__total-text">(2)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="color__check">
+
+                                                            <input type="checkbox" id="folly">
+
+                                                            <label class="color__check-label" for="folly" style="background-color: #FF0055"></label></div>
+
+                                                        <span class="shop-w__total-text">(4)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="color__check">
+
+                                                            <input type="checkbox" id="yellow">
+
+                                                            <label class="color__check-label" for="yellow" style="background-color: #FFFF00"></label></div>
+
+                                                        <span class="shop-w__total-text">(6)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="color__check">
+
+                                                            <input type="checkbox" id="granite-gray">
+
+                                                            <label class="color__check-label" for="granite-gray" style="background-color: #605F5E"></label></div>
+
+                                                        <span class="shop-w__total-text">(8)</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="color__check">
+
+                                                            <input type="checkbox" id="space-cadet">
+
+                                                            <label class="color__check-label" for="space-cadet" style="background-color: #1D3461"></label></div>
+
+                                                        <span class="shop-w__total-text">(10)</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-12">
+                            <div class="shop-p">
+                                <div class="shop-p__toolbar u-s-m-b-30">
+                                    <!-- <div class="shop-p__meta-wrap u-s-m-b-60">
+
+                                        <span class="shop-p__meta-text-1">FOUND 18 RESULTS</span>
+                                        <div class="shop-p__meta-text-2">
+
+                                            <span>Related Searches:</span>
+
+                                            <a class="gl-tag btn--e-brand-shadow" href="#">GYM EQUIPMENTS</a>
+
+                                            <a class="gl-tag btn--e-brand-shadow" href="#">PHYSI BOOKS</a>
+
+                                            <a class="gl-tag btn--e-brand-shadow" href="#">SUPPLIMENTS</a></div>
+                                    </div> -->
+                                    <div class="shop-p__tool-style">
+                                        <div class="tool-style__group u-s-m-b-8">
+
+                                            <!-- <span class="js-shop-grid-target is-active">Grid</span>
+
+                                            <span class="js-shop-list-target">List</span></div> -->
+                                        <form>
+                                            <!-- <div class="tool-style__form-wrap">
+                                                <div class="u-s-m-b-8"><select class="select-box select-box--transparent-b-2">
+                                                        <!-- <option>Show: 8</option>
+                                                        <option selected>Show: 12</option>
+                                                        <option>Show: 16</option>
+                                                        <option>Show: 28</option> -->
+                                                    </select></div>
+                                                <!-- <div class="u-s-m-b-8"><select class="select-box select-box--transparent-b-2">
+                                                        <option selected>Sort By: Newest Items</option>
+                                                        <option>Sort By: Latest Items</option>
+                                                        <option>Sort By: Best Selling</option>
+                                                        <option>Sort By: Best Rating</option>
+                                                        <option>Sort By: Lowest Price</option>
+                                                        <option>Sort By: Highest Price</option>
+                                                    </select></div>
+                                            </div>  -->
+                                        </form>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                              
+                                <!----------------------------------------------photo worksssssssssssss-->
+
+
+
+                                <!-- <form id="search-form">
+                                    <input type="text" name="query">
+                                    <button type="submit">Search</button>
+                                </form>
+                                 -->
+                                <div id="products-container"></div>
+
+
+                                <div id="product-list"  class="shop-p__collection">
+                                    {% for i in list %}
+                                    <div  class="row is-list-active">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <div class="product-m">
+                                                <div class="product-m__thumb">
+                                                   
+                                
+                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product_details' %}?uid={{i.id}}">
+                                                        
+                                                        <img  class="aspect__img"  src="{{i.image.url}}" alt="dd"></a>
+                                                        
+                                                    <div class="product-m__quick-look">
+                                
+                                                        <a class="fas fa-search" data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a></div>
+                                                        <div class="product-m__add-cart">
+
+                                
+                                                            <a class="btn--e-brand" data-modal="modal" data-modal-id="" href="{% url 'create_cart' %}?uid={{ i.id }}&variant_option_id={{i.get_default_price.id}}">Add to Cart</a></div>
+                                                                                                             <!-- #add-to-cart -->
+                                                        </div>
+                                                   
+                                                <div class="product-m__content">
+                                                    <div class="product-m__category">
+                                
+                                                    <a href="shop-side-version-2.html">{{ i.p_category}}  </a></div>
+                                                    <div class="product-m__name">
+                                
+                                                        <a href="product-detail.html">{{ i.book_title}}</a></div>
+                                                    <div class="product-m__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                
+                                                        <span class="product-m__review">(23)</span></div>
+                                                    <div class="product-m__price fa fa-rupee" >{% if i.p_category.catewise_dicount_price %} <h2 style='color: orangered;'>₹{{i.get_default_price.discount_price}}</h2>  <del>₹{{ i.get_default_price.price}} </del> You will save {{i.p_category.catewise_dicount_price}}{% else %}<h2 style='color: orangered;'>₹{{i.get_default_price.price}}</h2> {% endif %}</div>
+                                                    <div class="product-m__hover">
+                                                        <div class="product-m__preview-description">
+                                
+                                                            <span>{{ i.description }} </span></div>
+                                                        <div class="product-m__wishlist">
+                                
+                                                            <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   {% endfor %}
+                              
+
+
+                               
+                                <div class="u-s-p-y-60">
+                                    {% include 'pagination.html' with page=list %}
+                                    
+                                </div>
+                               
+                                    <!--====== Pagination ======-->
+                                    <!-- <ul class="shop-p__pagination">
+                                        <li class="is-active">
+
+                                            <a href="shop-list-left.html">1</a></li>
+                                        <li>
+
+                                            <a href="shop-list-left.html">2</a></li>
+                                        <li>
+
+                                            <a href="shop-list-left.html">3</a></li>
+                                        <li>
+
+                                            <a href="shop-list-left.html">4</a></li>
+                                        <li>
+
+                                            <a class="fas fa-angle-right" href="shop-list-left.html"></a></li>
+                                    </ul> -->
+                                    <!--====== End - Pagination ======-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section 1 ======-->
+            
+        </div>
+        <!--====== End - App Content ======-->
+     
+
+<!-- <script>
+    $(document).ready(function(){
+        $('#myButton)'.click(function(){
+            $(this).addClass('clicked');
+        });
+    });
+</script> -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- ajax for search  -->
+<script>
+    const form = document.querySelector('.main-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const searchInput = document.getElementById('main-search');
+        const searchTerm = searchInput.value;
+        filterProducts(searchTerm);
+    });
+</script>
+<script>
+    function filterProducts(searchTerm) {
+        const url = '/search_products/?search=' +searchTerm;
+        console.log(url)
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // const productList=eval(xhr.responseText);
+                const productList = JSON.parse(xhr.responseText);
+                // alert(productList[0],'hihihi')
+                updateProductList(productList);
+                
+            }
+        };
+        xhr.send();
+    }
+</script>
+<script>
+    function updateProductList(productList) {
+        const productContainer = document.getElementById('product-list');
+        productContainer.innerHTML = '';
+        
+        
+        for (let i = 0; i < productList.length; i++) {
+            const product = productList[i];
+            // alert(product[0].book_title,'hihihi')
+           
+           
+            
+            const html = `
+            <div class="row is-list-active">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <div class="product-m">
+                                                <div class="product-m__thumb">
+                                                   
+                                
+                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="/product_details?uid=${product.id}">
+                                                        
+                                                      ${product.image ?` <img class="aspect__img"  src="/media/${product.image}" alt="dd">`:''}</a>
+                                                        
+                                                    <div class="product-m__quick-look">
+                                
+                                                        <a class="fas fa-search" data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a></div>
+                                                        <div class="product-m__add-cart">
+
+                                
+                                                            <a class="btn--e-brand" data-modal="modal" data-modal-id="" href="/create_cart/?uid=${ i.id }&variant_option_id=${product.id_var}">Add to Cart</a></div>
+                                                                                                             <!-- #add-to-cart -->
+                                                        </div>
+                                                   
+                                                <div class="product-m__content">
+                                                    <div class="product-m__category">
+                                
+                                                    <a href="shop-side-version-2.html">${ product.p_category }</a></div>
+                                                    <div class="product-m__name">
+                                
+                                                        <a href="product-detail.html">${ product.book_title }</a></div>
+                                                    <div class="product-m__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                
+                                                        <span class="product-m__review">(23)</span></div>
+                                                        
+                                                        ${ product.dis_price ? 
+                                                    `<div class="product-m__price fa fa-rupee" ><h2 style='color: orangered'>₹${ product.price}</div><br>
+                                                    <div class="product-m__price fa fa-rupee" ><del>₹${ product.dis_price} </del> You will save ${ product.save_price}</div>`
+                                                                        
+                                                    :`<div class="product-m__price fa fa-rupee" ><h2 style='color: orangered'>₹${ product.price}</div>`  
+                                                             }
+                                                    
+                                                    
+                                                    <div class="product-m__hover">
+                                                        <div class="product-m__preview-description">
+                                
+                                                            <span>${product.description}</span></div>
+                                                        <div class="product-m__wishlist">
+                                
+                                                            <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+            `;
+            productContainer.insertAdjacentHTML('beforeend', html);
+        }
+    }
+</script>
+
+
+
+<!-- jquery to check and display the discount price for the producr by category -->
+<script>
+    $(document).ready(function() {
+      const productPriceElem = $('#product-price');
+      if (product.dis_price) {
+        productPriceElem.append(`
+          <div class="product-m__price fa fa-rupee">
+            <h2 style='color: orangered'>₹${ product.price }</h2>
+          </div>
+          <div class="product-m__price fa fa-rupee">
+            <del>₹${ product.dis_price }</del>
+          </div>
+        `);
+      } else {
+        productPriceElem.append(`
+          <div class="product-m__price fa fa-rupee">
+            <h2 style='color: orangered'>₹${ product.price }</h2>
+          </div>
+        `);
+      }
+    });
+
+
+    // <div id="product-price"></div>
+
+  </script>
+
+
+<!-- filter by category -->
+
+</script>
+
+
+<!-- filter by price -->
+<!-- <script>
+
+
+    const form = document.querySelector('.main-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const searchInput = document.getElementById('main-search');
+        const searchTerm = searchInput.value;
+        filterProducts(searchTerm);
+    });
+</script> -->
+
+
+</script>
+
+<script>
+    function rangedis(){
+         range = document.getElementById("range1").value;
+         document.getElementById("maPrice").innerHTML = "please enter minimum 8 digits";
+
+
+     }
+ </script>
+
+{% endblock %}

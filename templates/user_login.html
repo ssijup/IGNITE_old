@@ -1,0 +1,367 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+
+{% load socialaccount %}
+{% providers_media_js %}
+
+
+        <!--====== End - Main Header ======-->
+
+
+        <!--====== App Content ======-->
+        <div class="app-content">
+
+            <!--====== Section 1 ======-->
+            <div class="u-s-p-y-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="breadcrumb">
+                            <div class="breadcrumb__wrap">
+                                <ul class="breadcrumb__list">
+                                    <li class="has-separator">
+
+                                        <a href="index.html">Home</a></li>
+                                    <li class="is-marked">
+
+                                        <a href="signin.html">Signin</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section 1 ======-->
+
+
+            <!--====== Section 2 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-60">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary">ALREADY REGISTERED?</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
+
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row row--center">
+                            <div class="col-lg-6 col-md-8 u-s-m-b-30">
+                                <div class="l-f-o">
+                                    <div class="l-f-o__pad-box">
+                                        <h1 class="gl-h1">I'M NEW CUSTOMER</h1>
+
+                                        <span class="gl-text u-s-m-b-30">By creating an account with our store, you will be able to move through the checkout process faster, store shipping addresses, view and track your orders in your account and more.</span>
+                                        <div class="u-s-m-b-15">
+
+                                            <a class="l-f-o__create-link btn--e-transparent-brand-b-2" href="{% url 'user_signup' %}">CREATE AN ACCOUNT</a></div>
+                                        <h1 class="gl-h1">SIGNIN</h1>
+
+                                        <span class="gl-text u-s-m-b-30">If you have an account with us, please log in.</span>
+                                        <form class="l-f-o__form" id="login-form" onkeyup="sumbmit()"  >
+                                            {% csrf_token %}
+                                            <div class="gl-s-api">
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="gl-s-api__btn gl-s-api__btn--fb" type="button"><i class="fab fa-facebook-f"></i>
+
+                                                        <span>Signin with Facebook</span></button></div>
+                                                <div class="u-s-m-b-15">
+
+                                                    <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button"><i class="fab fa-google"></i>
+
+                                                        <span><a href="{% provider_login_url "google" %}">Sign in with Google</a></span></button></div>
+                                            </div>
+                                            <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="login-email">E-MAIL *</label> 
+                                               
+                                               
+                                                
+                                            
+                                                <h6  id="email-error" class="" style="color: red;"></h6>
+                                        
+                                                <input id="uemail" name ="user_email"class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter E-mail" ></div>
+                                            
+                                                <div class="u-s-m-b-30">
+
+                                                     <label class="gl-label" for="login-password">PASSWORD *</label>
+                                                    
+                                                    {% if messages %}
+                                                
+                                                    {% for message in messages %}
+                                                    <h3 style="color: red;" >{% if message.tags %} {{ message.tags }}"{% endif %}{{ message }}</h3>
+                                                    {% endfor %}
+                                                
+                                                {% endif %}
+                                                <h6  id="pass-error" class="" style="color: red;"></h6>
+
+                                                <input id="upass" name ="user_password"  class="input-text input-text--primary-style" type="password" id="login-password" placeholder="Enter Password"></div>
+                                                <div>
+                                                    <h5 class="" >{{u_blocked}}</h5>
+                                                </div>
+                                                                                                <h6  id="email-error" class="" style="color: red;"></h6>
+                                                <h4  id="pass-uname-error" class="" style="color: red;"></h4>
+
+                                            <div class="gl-inline">
+                                                
+                                                <div class="u-s-m-b-30">
+
+                                                    <button id="user_login" class="btn btn--e-transparent-brand-b-2"  >LOGIN</button></div>
+                                                <div class="u-s-m-b-30">
+
+                                                    <a class="gl-link" href="lost-password.html">Lost Your Password?</a></div>
+                                            </div>
+                                            <!-- <div class="gl-inline">
+                                                
+                                                
+                                                <div class="u-s-m-b-30">
+
+                                                    <button id="user_login" class="btn btn--e-transparent-brand-b-2"  >or</button></div>
+                                                <div class="u-s-m-b-30">
+
+                                                    <a class="gl-link" href="lost-password.html">Login with otp</a></div>
+                                            </div> -->
+                                            <!-- <div class="msg">
+
+                                                <span class="msg__text">Have a coupon?
+                                                    
+                                                        
+                                                    
+        
+                                                    
+                                                    <a class="gl-link" href="#have-coupon" data-toggle="collapse">Click Here to enter your code</a></span>
+                                                   
+        
+                                                    <a class="gl-link">{{i.coupon_name}}</a>
+                                                 
+                                                    <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
+                                                    
+                                                    <div class="c-f u-s-m-b-16">
+        
+                                                        <span class="gl-text u-s-m-b-16">Enter your coupon code if you have one.</span>
+                                                        <form class="c-f__form">
+                                                            <div class="u-s-m-b-16">
+                                                                <div class="u-s-m-b-15">
+        
+                                                                    <label for="coupon"></label>
+        
+                                                                    <input class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Coupon Code"></div>
+                                                                <div class="u-s-m-b-15">
+        
+                                                                    <button class="btn btn--e-transparent-brand-b-2" type="submit">APPLY</button></div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="section__content">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div id="checkout-msg-group">
+                                                          
+                            
+                                                                                <!--====== Check Box ======-->
+                                                                                <!-- <div class="check-box">
+                            
+                                                                                    <input type="checkbox" id="remember-me">
+                                                                                    <div class="check-box__state check-box__state--primary">
+                            
+                                                                                        <label class="check-box__label" for="remember-me">Remember Me</label></div>
+                                                                                </div> -->
+                                                                                <!--====== End - Check Box ======-->
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="msg">
+                            
+                                                                    <span class="msg__text">Or
+                            
+                                                                        <a class="gl-link" href="#have-coupon" data-toggle="collapse">Login with opt</a></span>
+                                                                    <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
+                                                                        <div class="c-f u-s-m-b-16">
+                            
+                                                                            <span class="gl-text u-s-m-b-16"></span>
+                                                                            <form class="c-f__form" method="POST" action="{% url 'otp_login_inor' %}">
+                                                                                {% csrf_token %}
+                                                                                <div class="u-s-m-b-16">
+                                                                                    <div class="u-s-m-b-15">
+                            
+                                                                                        <label for="coupon"></label>
+                            
+                                                                                        <input name="u_num" class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Enter your mobile number"></div>
+                                                                                    <div class="u-s-m-b-15">
+                            
+                                                                                        <button class="btn btn--e-transparent-brand-b-2" type="submit">Send otp</button></div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
+                                            
+                                            <div class="u-s-m-b-30">
+
+                                                <!--====== Check Box ======-->
+                                               
+                                                <!--====== End - Check Box ======-->
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 2 ======-->
+        </div>
+        <!--====== End - App Content ======-->
+
+
+        <!--====== Main Footer ======-->
+
+
+    <!-- user login form va;lidation -->
+<!-- <script>
+// window.onload = initAll;
+
+// var search_input;
+// function initAll(){
+//     searchproducts=document.getElementById('user_login')
+$(document).ready(function() {
+    $('#login-form').submit(function(event) {
+        event.preventDefault();
+    searchproducts.onclick=login_val;
+}
+// function login_val(){
+    var uemail_val=document.getElementById('uemail').value;
+    var upass_val=document.getElementById('upass').value;
+    console.log(upass_val,'pp')
+    console.log(uemail_val,'pp')
+    // val_input(uemail_val,upass_val)
+
+    $.ajax({
+        type:"GET",
+        url:"/user_login",
+        data:{
+            user_email:uemail_val,
+            user_password:upass_val
+        },
+        success:function(data){
+            console.log("data=",data);
+            eml.innerText=data.quantity
+            document.getElementById("amount").innerText=data.amount
+            document.getElementById("totalamount").innerText=data.totalamount
+        }
+    })
+
+
+
+
+// }
+// function val_input(uemail_val,upass_val){
+//     console.log('val_in', +uemail_val)
+}
+    </script> -->
+
+
+
+    <script>
+        $(document).ready(function() {
+    $('#login-form').submit(function(event) {
+        event.preventDefault(); // Prevent form from submitting normally
+         // Get form data
+        var email = $("#uemail").val();
+        var password = $("#upass").val();
+        console.log(email,'ppppppo')
+        console.log(password,'ppppppo')
+
+        // var uemail_val=document.getElementById('uemail').value;
+        // var upass_val=document.getElementById('upass').value;
+        // console.log(uemail_val,'pp')
+        // console.log(upass_val,'pp')
+
+        // Send AJAX request to the server
+        $.ajax({
+            type: 'POST',
+            url: '/user_login', // Change this to the URL for your login view
+            data: {
+                'user_email': email,
+                'user_password': password,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+
+            },
+            success: function(response) {
+                // Success callback
+                if ('user_nameerror' in response){
+                    console.log(response.user_nameerror);
+                    var errorMessage = response.user_nameerror;
+                    console.log(errorMessage,'new console')
+                    $('#email-error').text(errorMessage);
+                }
+                if('password_error' in response){
+                    console.log(response.password_error);
+                    var errorMessage = response.password_error;
+                    console.log(errorMessage,'new2 console')
+                    console.log('ok')
+
+                    $('#pass-error').text(errorMessage);
+                } 
+                if('index_3_home' in response){
+                    console.log('gg')
+                    // window.location('index_3_home')
+                    // window.location.href = '/templates/index_3_home';
+                    location.reload();
+                    // location.replace("index_3_home");
+                    
+
+
+                }
+                if('password_or_uname_error' in response){
+                    var errorMessage = response.password_or_uname_error;
+                    $('#pass-uname-error').text(errorMessage);
+
+                }
+                   
+                    // window.location.href = "/dashboard/";
+            },           
+            error: function(response) {
+                // Error callback
+                console.log(response,'error');
+                // Display error message to the user
+                var errorMessage = "An error occurred. Please try again.";
+                $('#error-message').text(errorMessage);
+            }
+        });
+    });
+});
+</script>
+    </script>
+
+
+
+{% endblock %}
