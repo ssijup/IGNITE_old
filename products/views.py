@@ -832,6 +832,7 @@ def admin_categorylist(request):
 
 
 def admin_addcategory_discount(request):
+    
     return render(request,'admin_addcategory_discount.html')
 
 

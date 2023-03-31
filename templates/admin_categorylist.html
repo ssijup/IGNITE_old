@@ -37,6 +37,10 @@
                                             <th>Sl.NO</th>
                                             <th>Category</th>
                                             <th>Current cat offer</th>
+                                            <th>Give offer</th>
+
+
+                                            admin_addcategory_discount
                                             
                                             <th>add subcategory</th>
                                             <th>Edit</th>
@@ -64,6 +68,7 @@
                                             <td><img src="{{ i.picture.url }}" style="height: 25px; width:25px"></td>--> 
                                             <td>{{ i.cate_name }}</td>
                                             <td>{{i.catewise_dicount_price}}</td>
+                                            <td><a href="{% url 'admin_addcategory_discount' %}?uid={{ i.id }}" class="btn btn-primary btn-sm">Add offer</td>
 
                                             <td><a href="{% url 'admin_addsubcategory' %}?uid={{ i.id }}" class="btn btn-primary btn-sm">Add sub</td>
                                             <td >

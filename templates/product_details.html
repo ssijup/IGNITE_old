@@ -96,7 +96,7 @@
                                 <div>
                                     <div class="pd-detail__inline">
                                        
-                                        <span class="pd-detail__price" id="product_variant_price">{% if list.p_category.catewise_dicount_price %}₹{{list.get_default_price.discount_price}} <h4 style="color:rgba(2, 4, 0, 0.805); display: inline-block;"><del>₹{{list.get_default_price.price }} </del><h4 style="color: rgb(9, 163, 9);">  You will save ₹{{list.p_category.catewise_dicount_price}} </h4></h4>{% else %} {{prod_variant_option_price}} {% endif %}</span>
+                                        <span class="pd-detail__price" id="product_variant_price">{% if list.p_category.catewise_dicount_price %}₹{{list.get_default_price.discount_price}} <h4 style="color:rgba(2, 4, 0, 0.805); display: inline-block;"><del>₹{{list.get_default_price.price }} </del><h4 style="color: rgb(9, 163, 9);">  You will save ₹{{list.p_category.catewise_dicount_price}} </h4></h4>{% else %} ₹{{prod_variant_option_price}} {% endif %}</span>
                                         
                                         <span class="pd-detail__discount"></span><del class="pd-detail__del"></del></div>
                                 </div>
