@@ -119,11 +119,11 @@
                                                 <a href="{% url 'user_signup' %}"><i class="fas fa-user-plus u-s-m-r-6"></i>
 
                                                     <span>Signup</span></a></li>
-                                            <li>
+                                            <!-- <li>
 
                                                 <a href="{% url 'user_login' %}"><i class="fas fa-lock u-s-m-r-6"></i>
 
-                                                    <span>Signin</span></a></li>
+                                                    <span>Signin</span></a></li> -->
                                             <li>
 
                                                 <a href="{% url 'user_logout' %}"><i class="fas fa-lock-open u-s-m-r-6"></i>
@@ -254,11 +254,9 @@
 
                                         <a ><i class="far fa-heart"></i></a></li>
                                     <li class="has-dropdown">
-
-                                        <a  class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i>
-
-                                            <span class="total-item-round">{{cart}}</span></a>
-
+                                        {% block cartdrop %}
+                                        {% endblock %}
+                                        
                                         <!--====== Dropdown ======-->
 
                                         <span class="js-menu-toggle"></span>
@@ -294,7 +292,7 @@
 
                                                     <a class="mini-product__delete-link far fa-trash-alt"></a> 
                                                 </div>
-                                           {% endfor %} 
+                                                    {% endfor %} 
                                                 <!--====== End - Card for mini cart ======-->
 
 
@@ -475,6 +473,7 @@
         
         
                 <!--====== Quick Look Modal ======-->
+                {% if vvv %}
                 <div class="modal fade" id="quick-look">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content modal--shadow">
@@ -659,6 +658,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 <!--====== End - Quick Look Modal ======-->
         
         

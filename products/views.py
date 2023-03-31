@@ -434,14 +434,16 @@ def admin_login(request):
 
 
 def user_manageaccount(request):
-    user=request.session['user_email']
-    user_obj=Userdetails.objects.filter(user_email=user).first()
-    contex= {
+    if 'user_email' in request.session:
+        user=request.session['user_email']
+        user_obj=Userdetails.objects.filter(user_email=user).first()
+        contex= {
 
-        'user_obj':user_obj
+            'user_obj':user_obj
 
-            }
-    return render(request,'user_manageaccount.html',contex)
+                }
+        return render(request,'user_manageaccount.html',contex)
+    return redirect('user_login')
 
 
 def user_addressbook(request):
@@ -633,7 +635,7 @@ def shop_list_left_books(request):
     shipping_charge=40
     
     user=request.session['user_email']
-    cartmini_user=Userdetails.objects.get(user_email=user)
+    cartmini_user=Userdetails.objects.filter(user_email=user).first()
     cartmini_usersort=Cart.objects.filter(user=cartmini_user)
     cate_filter=Category.objects.all()
     minmax_price=Variantoptions.objects.aggregate(Min('price'),Max('price'))
@@ -747,8 +749,8 @@ def product_details(request):
         variantopt_obj=Variantoptions.objects.filter(voption_prod_key=product_obj)
         prod_variant_option_price=variantopt_obj.first().price
         prod_variant_option_dis_price=variantopt_obj.first().discount_price
-
-        return render(request,'product_details.html',{'prod_variant_option_dis_price':prod_variant_option_dis_price,'mul_img':mul_img,'list' : product_obj,'variantopt_obj':variantopt_obj,'prod_variant_option_price':prod_variant_option_price})
+        prod_bot_dis=Products.objects.all().order_by('-id')[:10]
+        return render(request,'product_details.html',{'prod_bot_dis':prod_bot_dis,'prod_variant_option_dis_price':prod_variant_option_dis_price,'mul_img':mul_img,'list' : product_obj,'variantopt_obj':variantopt_obj,'prod_variant_option_price':prod_variant_option_price})
 
 
 
@@ -1048,12 +1050,21 @@ def cart_table(request):
     cart_len = len(Cart.objects.filter(user = user1))
     total_price = sum([i.subtotal for i in cart])
     amount=total_price-40
+    
 
     # for i in cart:
     #     value= i.quantity*i.product.p_variantoption_for.price
     #     amount=value+amount
     # totalamount=amount+shippingcharge    'totalamount':totalamount
     return render(request,'cart_table.html',{"amount":amount,'cart':cart,'total_price':total_price,'cart_len':cart_len,})
+
+
+def clear_cart(request):
+    user=request.session['user_email']
+    user_obj=Userdetails.objects.filter(user_email=user).first()
+    user_cart=Cart.objects.filter(user=user_obj)
+    user_cart.delete()
+    return redirect('shop_list_left_books')
 
 
 def pluscart(request):
@@ -1230,9 +1241,10 @@ def address_checkout(request):
         #     value=i.product.p_variantoption_for.price*i.quantity
         #     amount= value+amount
         # total_amount=amount+shipping_charge
-        global val
-        def val():
-            return  iid
+        # global val
+        # def val():
+        #     return  iid
+        request.session['address_id']=iid
 
         #return render(request,'checkout_summary.html',{'summmary_pro':summmary_pro,'total_amount':total_amount,'user_addressship':user_addressship})
         #url=reverse('checkout_summary',args=[iid])
@@ -1248,8 +1260,9 @@ def address_checkout(request):
 # @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @never_cache
 def checkout_summary(request):
-        iid=val()
+        # iid=val()
         # total_amount=0
+        iid=request.session['address_id']
         user_address=Useraddress.objects.get(id=iid)
         loginuser = request.session['user_email']
         address_id=request.GET.get('address_id')
@@ -1515,7 +1528,7 @@ def user_order(request):
     uoders=Order.objects.filter(name=ordered_user)
     len_order=len(Order.objects.filter(name=ordered_user))
     cart_len = len(Cart.objects.filter(user = ordered_user))
-    return render(request,'user_order.html',{'uoders':uoders,'len_order':len_order,'cart_len':cart_len})
+    return render(request,'user_order.html',{'ordered_user':ordered_user,'uoders':uoders,'len_order':len_order,'cart_len':cart_len})
     
 #`cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @never_cache

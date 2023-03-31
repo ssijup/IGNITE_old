@@ -16,7 +16,17 @@
                         <!--====== End - Search Form ======-->
 {% endblock %}
 
-{% block content %}
+
+{% block cartdrop %}
+
+                        {% if cart %}
+                                        <a  class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i>
+
+                                            <span class="total-item-round">{{cart}}</span></a>
+                                            {% endif %}
+{% endblock %}
+
+                        {% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
         <!--====== App Content ======-->
