@@ -1369,7 +1369,9 @@ def coupon_dis_total(request):
 @never_cache
 def place_order(request): 
     if request.method=="POST" :  
-        iid=val()
+        # iid=val()
+        iid=request.session['address_id']
+
         
         user_login=request.session['user_email']    
         totalamount=request.GET.get('amount') 
