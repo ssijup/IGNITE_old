@@ -118,15 +118,17 @@
                                  
                                     <span class="pd-detail__preview-desc">{{ list.description }}</span></div>
                                    
-                                <div class="u-s-m-b-15">
-                                    <div class="pd-detail__inline">
-
-                                        <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
-
-                                            <a href="signin.html">Add to Wishlist</a>
-
-                                            <span class="pd-detail__click-count">(2)</span></span></div>
-                                </div>
+                                
+                                
+                                
+                                    <div class="u-s-m-b-15">
+                                        <div class="pd-detail__inline">
+                                            <button onclick="hii()" id="wish_btn" class="wishlist-button">
+                                                <i class="far fa-heart"></i>
+                                                <span class="wishlist-count"></span>Add to wishlist
+                                            </button>
+                                        </div>
+                                    </div>
 
                                 <div class="u-s-m-b-15">
                                     <!-- <form action="{% url 'product_details' %}?prod_uid={{list.id}}" method="POST">
@@ -185,27 +187,64 @@
                                             <!-- <div class="u-s-m-b-15">
 
                                                 <button class="mini-link btn--e-brand-b-2"  type="submit"><h5>Buy Now</h></button></div> -->
-                                        <div class="u-s-m-b-15">
+                                           
 
-                                            <button class="mini-link btn--e-brand-b-2" id="creat_cart"><h5>Add to Cart</h1></button>
+
+
+
+
+
+                                        <div class="u-s-m-b-15">
+                                            <div class="pd-detail__form">
+                                                <div class="pd-detail-inline-2">
+                                                    <!-- <div class="u-s-m-b-15">
+        
+                                                        ====== Input Counter ======-->
+                                                        <!-- <div class="input-counter">
+        
+                                                            <a  class="input-counter__minus fas fa-minus minus-btnn" pid={{prod_variant_option_dis_id}}></a>
+                                                             
+                                                        
+                                                           
+                                                            <h5 style="padding-top: 4%;" class="input-counter__text input-counter--text-primary-style mt-5" type="text" min="1" value="1"  data-max="1000">{{quantity}}</h5>
+                                                         
+
+                                                            <a class="input-counter__plus fas fa-plus pluss-btnn" pid={{prod_variant_option_dis_id}}></a>
+                                                        
+                                                        </div> -->
+                                                        <!--====== End - Input Counter ======-->
+                                                    <!-- </div> --> 
+                                                    <div class="u-s-m-b-15">
+        
+                                                        <button class="btn btn--e-brand-b-2" id="creat_cart"><h5>Add to Cart</h1></button></div>
                                                 </div>
+                                            </div>
                                         </div>
 
-                                            <!-- <div class="u-s-m-b-15"> -->
 
-                                                <!--====== Input Counter ======-->
-                                                <!-- <div class="input-counter"> -->
 
-                                                    <!-- <span class="input-counter__minus fas fa-minus"></span>
 
-                                                    <input class="input-counter__text input-counter--text-primary-style" type="text" value="1" data-min="1" data-max="1000">
 
-                                                    <span class="input-counter__plus fas fa-plus"></span></div> -->
-                                                <!--====== End - Input Counter ======-->
-                                            <!-- </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                             
-                                    <!-- </div> -->
-                                    <!-- </form> -->
                                 </div>
                                 <div class="u-s-m-b-15">
 
@@ -345,7 +384,7 @@
                                         
                                         <div class="product-o__wrap">
 
-            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product_details' %}">
+                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product_details' %}">
 
                                                 <img class="aspect__img" src="{{i.image.url}}" alt=""></a>
                                             <div class="product-o__action-wrap">
@@ -383,131 +422,10 @@
                                             <span class="product-o__discount">$160.00</span></span> -->
                                     </div>
                                 </div>
-                                {% endfor %}
-                                <!-- <div class="u-s-m-b-30">
-                                    <div class="product-o product-o--hover-on">
-                                        <div class="product-o__wrap">
-
-                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                <img class="aspect__img" src="images/product/electronic/product23.jpg" alt=""></a>
-                                            <div class="product-o__action-wrap">
-                                                <ul class="product-o__action-list">
-                                                    <li>
-
-                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                    <li>
-
-                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                    <li>
-
-                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                    <li>
-
-                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <span class="product-o__category">
-
-                                            <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                        <span class="product-o__name">
-
-                                            <a href="product-detail.html">Razor Gear Ultra Slim 8GB Ram</a></span>
-                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-
-                                            <span class="product-o__review">(20)</span></div>
-
-                                        <span class="product-o__price">$125.00
-
-                                            <span class="product-o__discount">$160.00</span></span>
-                                    </div>
-                                </div>
-                                <div class="u-s-m-b-30">
-                                    <div class="product-o product-o--hover-on">
-                                        <div class="product-o__wrap">
-
-                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                <img class="aspect__img" src="images/product/electronic/product26.jpg" alt=""></a>
-                                            <div class="product-o__action-wrap">
-                                                <ul class="product-o__action-list">
-                                                    <li>
-
-                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                    <li>
-
-                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                    <li>
-
-                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                    <li>
-
-                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <span class="product-o__category">
-
-                                            <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                        <span class="product-o__name">
-
-                                            <a href="product-detail.html">Razor Gear Ultra Slim 12GB Ram</a></span>
-                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-
-                                            <span class="product-o__review">(20)</span></div>
-
-                                        <span class="product-o__price">$125.00
-
-                                            <span class="product-o__discount">$160.00</span></span>
-                                    </div>
-                                </div>
-                                <div class="u-s-m-b-30">
-                                    <div class="product-o product-o--hover-on">
-                                        <div class="product-o__wrap">
-
-                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                <img class="aspect__img" src="images/product/electronic/product30.jpg" alt=""></a>
-                                            <div class="product-o__action-wrap">
-                                                <ul class="product-o__action-list">
-                                                    <li>
-
-                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                    <li>
-
-                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                    <li>
-
-                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                    <li>
-
-                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <span class="product-o__category">
-
-                                            <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                        <span class="product-o__name">
-
-                                            <a href="product-detail.html">Razor Gear Ultra Slim 16GB Ram</a></span>
-                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-
-                                            <span class="product-o__review">(20)</span></div>
-
-                                        <span class="product-o__price">$125.00
-
-                                            <span class="product-o__discount">$160.00</span></span>
-                                    </div>
-                                </div> -->
+                                
+                               
                             </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -542,6 +460,40 @@
             window.location.href = url;
         });
     });
+</script>
+
+
+<!-- creatig whishlist by getting product id and variant option -->
+<script>
+  $('.wish_btn').click(function() {
+  console.log('Button clicked'); // add this line
+  var productId = $('.product_variant:checked').data('product-id');
+  var variantId = $('.product_variant:checked').attr('pid');
+  var url = '{% url "user_wishlist" %}?uid=' + productId + '&variant_option_id=' + variantId;
+  window.location.href = url;
+});
+
+    </script>
+
+<script>
+    function hii(){
+        console.log('hii')
+        var productId = $('.product_variant:checked').data('product-id');
+        var variantId = $('.product_variant:checked').attr('pid');
+        console.log(productId,variantId)
+        var url = '{% url "user_wishlist" %}?uid=' + productId + '&variant_option_id=' + variantId;
+        window.location.href = url;
+    }
+</script>
+
+
+<!-- for color change to the whishlist heart -->
+<script>
+ $(document).ready(function() {
+  $('.wishlist-button').on('click', function() {
+    $(this).toggleClass('active');
+  });
+});
 </script>
 
 {% endblock%}

@@ -140,7 +140,7 @@
                                             
                                                     <div class="u-s-m-b-15">
 
-                                                <button class="btn btn--e-transparent-brand-b-2" type="submit" onclick="namevalidate(),passwordValidate(),validatenumber() , validateemail() ,passwordValidate() , passwordValidate2">SIGN UP</button></div>
+                                                <button class="btn btn--e-transparent-brand-b-2" type="submit" onclick="namevalidate(),passwordValidate(),validatenumber() , validateemail() ,passwordValidate() , passwordValidate2()">SIGN UP</button></div>
 
                                             <a class="gl-link" href="#"></a>
                                         </form>
@@ -199,6 +199,11 @@
             else if(/^[0-9]+$/.test(num) == false) {
                 document.getElementById("num_err").innerHTML = "please enter a valid number";
                 return false
+            }
+            else if(/^(?!000)\d+$/.test(num)== false){
+                document.getElementById("num_err").innerHTML = "please enter a valid number.. 000 at the start is not accepted by us";
+                return false
+
             }
             else{
                 document.getElementById("num_err").innerHTML = "";

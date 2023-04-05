@@ -1,5 +1,6 @@
 from django.urls import path,include
-from .import views
+from products import views
+
 
 urlpatterns =[
     path("",views.index_3_home,name = "index_3_home"),
@@ -66,9 +67,9 @@ urlpatterns =[
     path('user_profile',views.user_profile, name = 'user_profile'),
     path('user_aboutus',views.user_aboutus, name = 'user_aboutus'),
     path('user_contact',views.user_contact, name = 'user_contact'),
-
-
-
+    path('user_wishlist',views.user_wishlist, name = 'user_wishlist'),
+    path('total_wishlist',views.total_wishlist, name = 'total_wishlist'),
+    path('remove_product_inwish',views.remove_product_inwish, name = 'remove_product_inwish'),
 
 
     #FILTER BY PRICE     
@@ -97,6 +98,8 @@ urlpatterns =[
     path('admin_addVedioBanner/',views.admin_addVedioBanner, name = 'admin_addVedioBanner'),
     path('adnin_VedioBannerList/',views.adnin_VedioBannerList, name = 'adnin_VedioBannerList'),
     path('admin_addcategory_discount/',views.admin_addcategory_discount, name = 'admin_addcategory_discount'),
+    path('admin_editbanner/',views.admin_editbanner, name = 'admin_editbanner'),
+
 
 
    
@@ -117,6 +120,11 @@ urlpatterns =[
     path('filter_products_byprice/',views.filter_products_byprice, name = 'filter_products_byprice'),
     path('search_products/',views.search_products, name = 'search_products'),
     path('filter_bycategory/',views.filter_bycategory, name = 'filter_bycategory'),
+    path('product_pluscart/',views.product_pluscart, name = 'product_pluscart'),
+    path('product_minuscart/',views.product_minuscart, name = 'product_minuscart'),
+    path('filter_by_subcategory/',views.filter_by_subcategory, name = 'filter_by_subcategory'),
+    path('discount_showing/',views.discount_showing, name = 'discount_showing'),
+
 
 
 
@@ -125,8 +133,6 @@ urlpatterns =[
 
     path('venue_pdf/',views.venue_pdf, name = 'venue_pdf'),
     path('venue_csv/',views.venue_csv, name = 'venue_csv'),
-
-
 
 
 

@@ -36,7 +36,12 @@
                    <div class="form-outline mb-4">
                   <select class="form-control" id="exampleFormControlSelect1" name="product_variant" required>
                     {% for i in var_all %}
+                    {% if var_pp.voption_vartaint_key.varient_name == i.varient_name %}
+                    <option selected>{{ i.varient_name }}</option>
+                    {% else %}
                     <option>{{ i.varient_name }}</option>
+
+                    {% endif %}
                     {% endfor %}
                   </select>
                   <label class="form-label text-secondary" for="form3Example1cg">Select Variants </label>
@@ -57,13 +62,13 @@
                 </div>
                 <div class="form-outline mb-4">
 
-                  <input type="text" value="{{var_pp.product_stock}}" id="form3Example1cg" class="form-control form-control-lg" name="variantoption_stock" required/>
+                  <input type="number" value="{{var_pp.product_stock}}" id="form3Example1cg" class="form-control form-control-lg" name="variantoption_stock" required/>
                   <label class="form-label text-secondary" for="form3Example1cg">Enter stock qtn </label>
                   
                 </div>
                 <div class="form-outline mb-4">
 
-                  <input type="text" value="{{var_pp.price}}" id="form3Example1cg" class="form-control form-control-lg" name="variantoption_price" required/>
+                  <input type="number" value="{{var_pp.price}}" id="form3Example1cg" class="form-control form-control-lg" name="variantoption_price" required/>
                   <label class="form-label text-secondary" for="form3Example1cg">Enter price </label>
                   
                 </div>

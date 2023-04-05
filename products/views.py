@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse,HttpResponseRedirect
-from .models import Userdetails,Products,Category,Cart,Useraddress,Coupon,BannerVedio,Order,GENDER_CHOICE,PAYMENT_METHOD_CHOICES,STATUS_CHOICES,Payment,Subcategory,Variants,Variantoptions,Productimages
+from .models import Userdetails,Products,Category,Cart,Wishlist,Useraddress,Coupon,BannerVedio,Order,GENDER_CHOICE,PAYMENT_METHOD_CHOICES,STATUS_CHOICES,Payment,Subcategory,Variants,Variantoptions,Productimages
 from django.contrib.auth import authenticate,login,logout
 from django.core.files.storage import FileSystemStorage
 from django.views.decorators.cache import cache_control,never_cache
@@ -41,6 +41,10 @@ def search(request):
         data = {'results': [{'name': r.name, 'description': r.description} for r in results]}
         return JsonResponse(data)
     return render(request, 'search.html')
+
+def view_404_error(request,exception):
+    return render(request,'404_error.html')
+
 
 
 def venue_csv(resquest):
@@ -296,14 +300,14 @@ def otp_login(request):
         print(num,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
         otp_sent = random.randint(1001, 9999)
        
-        # url = 'https://www.fast2sms.com/dev/bulkV2'
-        # payload = f'sender_id=TXTIND&message={otp_sent}&route=v3&language=english&numbers={num}'
-        # headers = {
-        #     'authorization': "xoiObB7WLa4GvY0uPZ6J9KmS1kXQCA2MeRhpzfTHN5sy8dctVDo5mkyeX9CRJxBKzu8M7FZ0stfh2gdi",
-        #     'Content-Type': "application/x-www-form-urlencoded"
-        #     }
-        # response = requests.request("POST", url, data=payload, headers=headers)
-        # print(response.text) 
+        url = 'https://www.fast2sms.com/dev/bulkV2'
+        payload = f'sender_id=TXTIND&message={otp_sent}&route=v3&language=english&numbers={num}'
+        headers = {
+            'authorization': "xoiObB7WLa4GvY0uPZ6J9KmS1kXQCA2MeRhpzfTHN5sy8dctVDo5mkyeX9CRJxBKzu8M7FZ0stfh2gdi",
+            'Content-Type': "application/x-www-form-urlencoded"
+            }
+        response = requests.request("POST", url, data=payload, headers=headers)
+        print(response.text) 
         print("Sent value::",otp_sent)
     return render(request,'otp_login.html')
 
@@ -323,20 +327,20 @@ def otp_login_inor(request):
             print('koiiii')
             
            
-            signup_user_num=request.session['u_phnum']
+            # signup_user_num=request.session['u_phnum']
             print(u_num)
             num = u_num
             print(num,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
             otp_sent = random.randint(1001, 9999)
             
-            # url = 'https://www.fast2sms.com/dev/bulkV2'
-            # payload = f'sender_id=TXTIND&message={otp_sent}&route=v3&language=english&numbers={num}'
-            # headers = {
-            #     'authorization': "xoiObB7WLa4GvY0uPZ6J9KmS1kXQCA2MeRhpzfTHN5sy8dctVDo5mkyeX9CRJxBKzu8M7FZ0stfh2gdi",
-            #     'Content-Type': "application/x-www-form-urlencoded"
-            #     }
-            # response = requests.request("POST", url, data=payload, headers=headers)
-            # print(response.text) 
+            url = 'https://www.fast2sms.com/dev/bulkV2'
+            payload = f'sender_id=TXTIND&message={otp_sent}&route=v3&language=english&numbers={num}'
+            headers = {
+                'authorization': "xoiObB7WLa4GvY0uPZ6J9KmS1kXQCA2MeRhpzfTHN5sy8dctVDo5mkyeX9CRJxBKzu8M7FZ0stfh2gdi",
+                'Content-Type': "application/x-www-form-urlencoded"
+                }
+            response = requests.request("POST", url, data=payload, headers=headers)
+            print(response.text) 
             print("Sent value::",otp_sent)
             request.session['user_sess_exchange']=user_obj_ses       
             request.session['login_otp']=otp_sent
@@ -437,8 +441,9 @@ def user_manageaccount(request):
     if 'user_email' in request.session:
         user=request.session['user_email']
         user_obj=Userdetails.objects.filter(user_email=user).first()
+        order_obj=len(Order.objects.filter(name=user_obj))
         contex= {
-
+            'order_obj':order_obj,
             'user_obj':user_obj
 
                 }
@@ -458,9 +463,12 @@ def user_profile(request):
     user=request.session['user_email']
     print(user,'ooooooooooooooooooooooooooooooooooooooooooo')
     uprofile=Userdetails.objects.filter(user_email=user).first()
+    order_obj=len(Order.objects.filter(name=uprofile))
+
     contex= {
 
-        'uprofile':uprofile
+        'uprofile':uprofile,
+        'order_obj':order_obj
 
             }
     return render(request,'user_profile.html',contex)
@@ -640,22 +648,68 @@ def shop_list_left_books(request):
     cate_filter=Category.objects.all()
     minmax_price=Variantoptions.objects.aggregate(Min('price'),Max('price'))
     cart=len(Cart.objects.filter(user = cartmini_user)) 
+    cart_len = Cart.objects.filter(user = cartmini_user)
+    total_price = sum([i.subtotal for i in cart_len])
+    subcate=Subcategory.objects.all()
+    amount=total_price-40
     if cart>0:
         cart_len='good'
     else:
         cart_len=None
     
     context={ 
+        'subcate':subcate,
         'cart_len':cart_len,
         'cart':cart,
         'list' : list,
         'minmax_price' : minmax_price,
         "cartmini_usersort":cartmini_usersort,
         'page':page,
-        'cate_filter':cate_filter
+        'cate_filter':cate_filter,
+        "total_price":total_price
         }
     print('hasooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo')
     return render(request,'shop-list-left-books.html',context)
+
+
+def filter_by_subcategory(request):
+
+    sub_catname=request.GET.get('cate_proname')
+    print(sub_catname,'uuuuuu')
+    subcate_obj=Subcategory.objects.get(subcategory_name=sub_catname)
+    filtered_prod=Products.objects.filter(p_subcategory_for=subcate_obj)
+    product_list = []
+    for product in filtered_prod:
+        product_list.append({       
+            'id': product.id,
+            'book_title': product.book_title,
+            'description': product.description,
+            'image': str(product.image),
+            'p_category':product.p_category.cate_name,
+            'p_subcategory':product.p_subcategory_for.subcategory_name,
+
+
+            
+        })
+        price={
+        "price":product.get_variantoption_price()
+        }
+        product_list[-1].update(price)
+
+        id_var={
+        "id_var":product.get_variantoption_id()
+        }
+        product_list[-1].update(id_var)
+
+        dis_price={
+        "dis_price":product.get_variantoption_discount_by_cateprice()
+        }
+        product_list[-1].update(dis_price)
+        print('00000000',dis_price)
+
+        
+    return JsonResponse(product_list,safe=False)
+
 
 
 
@@ -671,6 +725,7 @@ def filter_bycategory(request):
             'description': product.description,
             'image': str(product.image),
             'p_category':product.p_category.cate_name,
+            'p_subcategory':product.p_subcategory_for.subcategory_name,
             
         })
         price={
@@ -718,7 +773,8 @@ def filter_products_byprice(request):
                 'p_category':product.voption_prod_key.p_category.cate_name,
                 'price':product.price,
                 'dis_price':product.discount_price,
-                'save_price':product.voption_prod_key.p_category.catewise_dicount_price
+                'save_price':product.voption_prod_key.p_category.catewise_dicount_price,
+                'p_subcategory':product.voption_prod_key.p_subcategory_for.subcategory_name,     
             })
             # price={
             # "price":product.get_variantoption_price()
@@ -742,15 +798,19 @@ def filter_products_byprice(request):
 
 @cache_control(no_cache=True)
 def product_details(request):
-    
-        uid=request.GET['uid']
-        product_obj =Products.objects.get(id = uid)
-        mul_img=Productimages.objects.filter(prod_img_key=product_obj)
-        variantopt_obj=Variantoptions.objects.filter(voption_prod_key=product_obj)
-        prod_variant_option_price=variantopt_obj.first().price
-        prod_variant_option_dis_price=variantopt_obj.first().discount_price
-        prod_bot_dis=Products.objects.all().order_by('-id')[:10]
-        return render(request,'product_details.html',{'prod_bot_dis':prod_bot_dis,'prod_variant_option_dis_price':prod_variant_option_dis_price,'mul_img':mul_img,'list' : product_obj,'variantopt_obj':variantopt_obj,'prod_variant_option_price':prod_variant_option_price})
+    print('vvbgggggggggggggggggggggggggggggggg')
+    uid=request.GET.get('uid')
+    product_obj =Products.objects.get(id = uid)
+    mul_img=Productimages.objects.filter(prod_img_key=product_obj)
+    variantopt_obj=Variantoptions.objects.filter(voption_prod_key=product_obj)
+    prod_variant_option_price=variantopt_obj.first().price
+    prod_variant_option_dis_price=variantopt_obj.first().discount_price
+    prod_variant_option_dis_id=variantopt_obj.first().id
+    print(prod_variant_option_dis_id,'oo')
+
+
+    prod_bot_dis=Products.objects.all().order_by('-id')[:10]
+    return render(request,'product_details.html',{'prod_variant_option_dis_id':prod_variant_option_dis_id,'prod_bot_dis':prod_bot_dis,'prod_variant_option_dis_price':prod_variant_option_dis_price,'mul_img':mul_img,'list' : product_obj,'variantopt_obj':variantopt_obj,'prod_variant_option_price':prod_variant_option_price})
 
 
 
@@ -805,7 +865,8 @@ def admin_editcategory(request):
         if category == "":
             error='Please enter category'
             return render(request,'admin_editcategory.html',{'error':error})
-        
+        if category_offer== "":
+            category_offer= None
         Category.objects.filter(id=uid).update(cate_name=category,catewise_dicount_price=category_offer)
         return redirect('admin_categorylist')
     else:
@@ -832,8 +893,15 @@ def admin_categorylist(request):
 
 
 def admin_addcategory_discount(request):
+    uid=request.GET.get('uid')
+    if request.method == 'POST':
+        off_price=request.POST.get('off_price')
+        uid=request.GET.get('uid')
+        Category.objects.filter(id=uid).update(catewise_dicount_price=off_price)
+        return redirect('admin_categorylist')
     
-    return render(request,'admin_addcategory_discount.html')
+    cat_obj=Category.objects.filter(id=uid).first()
+    return render(request,'admin_addcategory_discount.html',{'cat_obj':cat_obj})
 
 
 def userblock(request):
@@ -906,39 +974,72 @@ def admin_updateuser(request):
 
 
 def admin_editproducts(request):
-    if request.method == 'POST':
+    if 'editprod_id' in request.session:
+        
+        uid=request.session['editprod_id']
+        print(uid,'lllllllllllllllllllllll')
+    else:
         uid = request.GET['uid']
+    uid_pro=Products.objects.get(id=uid)
+    if request.method == 'POST':
+        if 'editprod_id' in request.session:
+            uid=request.session['editprod_id']
+        else:
+            uid = request.GET['uid']
         uid_pro=Products.objects.get(id=uid)
         imagee = request.FILES.get('myfile')
-        #if len(request.FILES) !=0:
+        #if len(request.FILproductsES) !=0:
+        
+        
+        uid_pro.book_title = request.POST.get('book_title')
+        uid_pro.description = request.POST.get('description')
+        c = request.POST.get('category')
+        cat_obj=Category.objects.filter(cate_name=c).first()
+        print(c,cat_obj,'555555555555pppppppppppppppppppppp')
+        uid_pro.p_category=cat_obj
+
+        oo= request.POST.get('product_subcategory')
+        sub_obj=Subcategory.objects.filter(subcategory_name=oo).first()
+        print(oo,'hhhhhhhhhhhhhhhhhhhhhhhhhh')
+        uid_pro.p_subcategory_for=sub_obj
+
+
+
+
+
+        # p_cate = Category.objects.filter(cate_name=uid_pro.p_category.cate_name).first()
+
         if len(imagee) !=0:
             if len(uid_pro.image) >0:
                 print('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
                 os.remove(uid_pro.image.path)
             uid_pro.image = request.FILES.get('myfile')
-        
-        uid_pro.book_title = request.POST.get('book_title')
-        uid_pro.description = request.POST.get('description')
-        #uid_pro.p_variantoption_for.price = request.POST.get('price')
-        uid_pro.p_category.cate_name = request.POST.get('category')
-        uid_pro.p_subcategory_for.subcategory_name = request.POST.get('product_subcategory')
-        
-        p_cate = Category.objects.filter(cate_name=uid_pro.p_category.cate_name).first()
         uid_pro.save()
+        uid=request.session['editprod_id']
+        print(uid,'lllllllllllllllllllllll')
+        # del request.session['editprod_id']
+        # uidd=request.session['editprod_id']
+        print(uid,'2lllllllllllllllllllllll')
         return redirect('admin_productslist')
     
-    pro_id=request.GET['uid']
-    pro_serch=Products.objects.filter(id=pro_id)
-    # variant_options_pro=Variantoptions.objects.filter(voption_prod_key=pro_serch)
-    # variant_options_pro.get
-
-
-
+    if 'editprod_id' in request.session:
+        uid=request.session['editprod_id']
+    else:
+        uid = request.GET['uid']
+    pro_serch=Products.objects.get(id=uid)
+    multi_img=Productimages.objects.filter(prod_img_key=pro_serch)
     categor=Category.objects.all()
+    prod_cat=pro_serch.p_category.cate_name
     subcate=Subcategory.objects.all()
     variant=Variants.objects.all()
-    variant_option=Variantoptions.objects.all()
+    variant_option=Variantoptions.objects.filter(voption_prod_key=uid_pro)
+    variant_option_prod=uid_pro.p_variant_for
+    
+
     context={
+        'prod_cat':prod_cat,
+        'multi_img':multi_img,
+        'variant_option_prod':variant_option_prod,
         'pro_serch' : pro_serch,
         'categor':categor,
         'subcate':subcate,
@@ -946,6 +1047,7 @@ def admin_editproducts(request):
         'variant_option':variant_option,
 
     }
+    request.session['editprod_id']=uid
     return render(request,'admin_editproducts.html', context)
 
 
@@ -959,7 +1061,7 @@ def admin_editproduct_variantoptions(request):
         voption_stock=request.POST.get('variantoption_stock')
         voption_unit=request.POST.get('variantoption_unit')
         prod_obj.update(unit=voption_unit,variantoption_name=voption_name,price=voption_price,product_stock=voption_stock)
-        return redirect('admin_productslist')
+        return redirect('admin_editproducts')
     
     var_pp=Variantoptions.objects.get(id=uid)
     print(var_pp,'popopopopopopopopo')
@@ -973,7 +1075,7 @@ def admin_deleteproduct_variantoptions(request):
     uid=request.GET.get('uid')
     var_obj=Variantoptions.objects.get(id=uid)
     var_obj.delete()
-    return redirect('admin_productslist')
+    return redirect('admin_editproducts')
 #----------------CART----------------------------------#
 
 
@@ -989,20 +1091,32 @@ def create_cart(request):
     #vartant_obj=Variantoptions.objects.get(id=variant_option_id)
 
     cart_user = Userdetails.objects.get(user_email = user )
+    if vartant_obj.product_stock == 0 or vartant_obj.product_stock<0 :
+            msg='The Product is out of stock'
+            messages.success(request,msg)
+            print('ooooooooggggggtttthhhh')
+            return redirect('shop_list_left_books')
     try:
         userprod_cart=Cart.objects.filter(user=cart_user)
     except Cart.DoesNotExist:
         userprod_cart=Cart.objects.create(user=cart_user,product=cart_pro,c_product_vatiantoption_key=vartant_obj,quantity=1)
+        vartant_obj.product_stock-=1
+        Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
+
+
     try:
         user_pro=Cart.objects.get(product=cart_pro,user=cart_user,c_product_vatiantoption_key=vartant_obj)
     except Cart.DoesNotExist:
         user_pro=None
     if user_pro is None:
         Cart.objects.create(user=cart_user,product=cart_pro,c_product_vatiantoption_key=vartant_obj,quantity=1)
+        vartant_obj.product_stock-=1
+        Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
+
     else:
-        if vartant_obj.product_stock == 0 or vartant_obj.product_stock<0 :
-            messages.success(request,msg,'The Product is out of stock')
-            return redirect(request,'shop_list_left_books.html')
+    #     if vartant_obj.product_stock == 0 or vartant_obj.product_stock<0 :
+    #         messages.success(request,'The Product is out of stock')
+    #         return redirect('shop_list_left_books')
            
         user_pro.quantity+=1
         Cart.objects.filter(product=cart_pro,c_product_vatiantoption_key=vartant_obj).update(quantity=user_pro.quantity)
@@ -1049,6 +1163,12 @@ def cart_table(request):
     user1 = Userdetails.objects.get(user_email = loginuser )
     cart = Cart.objects.filter(user = user1)
     cart_len = len(Cart.objects.filter(user = user1))
+    if cart_len >0:
+        pass
+    else:
+        cart_len=None
+
+    cart_len = len(Cart.objects.filter(user = user1))
     total_price = sum([i.subtotal for i in cart])
     amount=total_price-40
     
@@ -1082,6 +1202,8 @@ def pluscart(request):
                 'prod_name':'stock limited',
                 'disp':'Out of stock'
             }
+            quantity_increment_del=c.quantity
+            request.session['quantity_increment_del']=quantity_increment_del
             return JsonResponse(data)
         else:
             c.quantity+=1
@@ -1105,8 +1227,96 @@ def pluscart(request):
                 "amount":amount,
                 "totalamount":totalamount,
             }
+            quantity_increment_del=c.quantity
+            request.session['quantity_increment_del']=quantity_increment_del
             return JsonResponse(data)
     
+
+
+
+# product details plus
+def product_pluscart(request):
+    if request.method == "GET":
+        prod_id=request.GET['prod_id']
+        login_user = request.session['user_email']
+        logged_user=Userdetails.objects.filter(user_email=login_user).first()
+        obj_id=Variantoptions.objects.get(id=prod_id)
+        c=Cart.objects.get(Q(c_product_vatiantoption_key=obj_id) & Q(user=logged_user))
+        
+        if obj_id.product_stock <1:
+            prod_name=obj_id.voption_prod_key.book_title
+            data={
+                'prod_name':'stock limited',
+                'disp':'Out of stock'
+            }
+            quantity_increment_del=c.quantity
+            request.session['quantity_increment_del']=quantity_increment_del
+            return JsonResponse(data)
+        else:
+            c.quantity+=1
+            c.save()
+
+            obj_id.product_stock-=1
+            
+            print(obj_id.product_stock,'oooooooooooooooo')
+
+            Variantoptions.objects.filter(id=prod_id).update(product_stock=obj_id.product_stock)
+            loginuser = request.session['user_email']
+            loged_user=Userdetails.objects.filter(user_email=loginuser).first()
+            
+        
+            data={
+                
+                "quantity":c.quantity,
+            }
+            return JsonResponse(data)
+
+
+# products details minus 
+def product_minuscart(request):
+    if request.method == "GET":
+        prod_id=request.GET['prod_id']
+        print(prod_id,'jkljkl')
+        login_user = request.session['user_email']
+        logged_user=Userdetails.objects.filter(user_email=login_user).first()
+        obj_id=Variantoptions.objects.get(id=prod_id)
+        c=Cart.objects.get(Q(c_product_vatiantoption_key=obj_id) & Q(user=logged_user))
+        c.quantity-=1
+        if c.quantity<1:
+            obj_id.product_stock+=1
+            Variantoptions.objects.filter(id=prod_id).update(product_stock=obj_id.product_stock)
+            print('hhhhhhhh')
+            # c.delete()
+            data = {
+                'removed': True,
+            }
+        # if c.quantity<1:
+        #     pass
+        # else:
+        else:
+            print(c.quantity,'ppppppppppppppkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+            c.save()  
+
+            obj_id.product_stock+=1
+            # print(obj_id.product_stock,'oooooooooooooooo')
+            Variantoptions.objects.filter(id=prod_id).update(product_stock=obj_id.product_stock)
+            loginuser = request.session['user_email']
+            loged_user=Userdetails.objects.filter(user_email=loginuser).first()
+            cart=Cart.objects.filter(user=loged_user)
+            shippingcharge=40
+            amount=0
+            for i in cart:
+                value= i.quantity*i.c_product_vatiantoption_key.price
+                amount=value+amount
+            totalamount=amount+shippingcharge
+            data={
+                "quantity":c.quantity,
+                "amount":amount,
+                "totalamount":totalamount,
+            }
+        
+        
+        return JsonResponse(data)
 
 
 
@@ -1116,34 +1326,46 @@ def pluscart(request):
 def minuscart(request):
     if request.method == "GET":
         prod_id=request.GET['prod_id']
+        print(prod_id,'jkljkl')
         login_user = request.session['user_email']
         logged_user=Userdetails.objects.filter(user_email=login_user).first()
         obj_id=Variantoptions.objects.get(id=prod_id)
         c=Cart.objects.get(Q(c_product_vatiantoption_key=obj_id) & Q(user=logged_user))
         c.quantity-=1
+        if c.quantity<1:
+            obj_id.product_stock+=1
+            Variantoptions.objects.filter(id=prod_id).update(product_stock=obj_id.product_stock)
+            print('hhhhhhhh')
+            c.delete()
+            data = {
+                'removed': True,
+            }
         # if c.quantity<1:
         #     pass
         # else:
-        print(c.quantity,'ppppppppppppppkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
-        c.save()  
+        else:
+            print(c.quantity,'ppppppppppppppkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+            c.save()  
 
-        obj_id.product_stock+=1
-        # print(obj_id.product_stock,'oooooooooooooooo')
-        Variantoptions.objects.filter(id=prod_id).update(product_stock=obj_id.product_stock)
-        loginuser = request.session['user_email']
-        loged_user=Userdetails.objects.filter(user_email=loginuser).first()
-        cart=Cart.objects.filter(user=loged_user)
-        shippingcharge=40
-        amount=0
-        for i in cart:
-            value= i.quantity*i.c_product_vatiantoption_key.price
-            amount=value+amount
-        totalamount=amount+shippingcharge
-        data={
-            "quantity":c.quantity,
-            "amount":amount,
-            "totalamount":totalamount,
-        }
+            obj_id.product_stock+=1
+            # print(obj_id.product_stock,'oooooooooooooooo')
+            Variantoptions.objects.filter(id=prod_id).update(product_stock=obj_id.product_stock)
+            loginuser = request.session['user_email']
+            loged_user=Userdetails.objects.filter(user_email=loginuser).first()
+            cart=Cart.objects.filter(user=loged_user)
+            shippingcharge=40
+            amount=0
+            for i in cart:
+                value= i.quantity*i.c_product_vatiantoption_key.price
+                amount=value+amount
+            totalamount=amount+shippingcharge
+            data={
+                "quantity":c.quantity,
+                "amount":amount,
+                "totalamount":totalamount,
+            }
+        
+        
         return JsonResponse(data)
 
 
@@ -1154,8 +1376,19 @@ def cart_deleteproduct(request):
     user_obj=Userdetails.objects.filter(user_email=user).first()
     uid=request.GET['uid']
     cart_obj=Cart.objects.filter(user=user_obj)
-    delcart_id = cart_obj.get(id=uid,)
-    print(delcart_id,'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
+    delcart_id = cart_obj.get(id=uid)
+    restock=delcart_id.c_product_vatiantoption_key.product_stock
+    quan=delcart_id.quantity
+    variant_stock=delcart_id.c_product_vatiantoption_key
+    variant_stock.product_stock+=quan
+    variant_stock.save()
+
+
+    
+    # del_stock=request.session['quantity_increment_del']
+    # delcart_id.del_stock
+    print(restock,'stock')
+    print(delcart_id,'id')
     delcart_id.delete()
     return redirect('cart_table')
     
@@ -1293,7 +1526,7 @@ def checkout_summary(request):
                 total_amount=total_amount-dis_amt
                 razorpay_amount=int(total_amount)*100
                 cou_applied='Coupon Applied Sucessfully'
-                return render(request,'checkout_summary.html',{'cou_applied':cou_applied,'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
+                return render(request,'checkout_summary.html',{'dis_amt':dis_amt,'cou_applied':cou_applied,'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
             if cou_ex is None:
                 coup_error='Invalid Coupon'
                 return render(request,'checkout_summary.html',{'coup_error':coup_error,'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
@@ -1442,7 +1675,8 @@ def place_order(request):
 @never_cache          
 def razorpay_payment(request):
 
-    iid=val()
+    # iid=val()
+    iid=request.session['address_id']
     user_login=request.session['user_email'] 
     ordered_user=Userdetails.objects.get(user_email=user_login)
     usercart_product=Cart.objects.filter(user=ordered_user)
@@ -1518,13 +1752,6 @@ def razorpay_payment(request):
 
 
 
-
-
-
-
-
-
-
 def user_order(request):
     user_login=request.session['user_email']
     ordered_user=Userdetails.objects.get(user_email=user_login)
@@ -1565,7 +1792,11 @@ def user_cancellation(request):
     ucancel_id=request.GET.get('uid')
     print(ucancel_id,'hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
     user_cancellingorder=Order.objects.filter(id=ucancel_id)
-    return render(request,'user_cancellation.html',{'user_cancellingorder':user_cancellingorder})
+    user=request.session['user_email']
+    user_obj=Userdetails.objects.get(user_email=user)
+    order_len=len(Order.objects.filter(name=user_obj))
+    
+    return render(request,'user_cancellation.html',{'user_obj':user_obj,'order_len':order_len,'user_cancellingorder':user_cancellingorder})
 
 
 def user_returnproduct(request):
@@ -1578,7 +1809,10 @@ def user_returnproduct(request):
     return_id=request.GET.get('uid')
     print(return_id,'hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
     user_returningorder=Order.objects.filter(id=return_id)
-    return render(request,'user_returnproduct.html',{'user_returningorder':user_returningorder})
+    user=request.session['user_email']
+    user_obj=Userdetails.objects.get(user_email=user)
+    order_len=len(Order.objects.filter(name=user_obj))
+    return render(request,'user_returnproduct.html',{'user_obj':user_obj,'order_len':order_len,'user_returningorder':user_returningorder})
 
 
 
@@ -1770,6 +2004,8 @@ def admin_delete_variantoption(request):
 
 def admin_productslist(request):
     #if 'email' in request.session:
+    if 'editprod_id' in request.session:
+        del request.session['editprod_id']
     if request.method=='POST':
         pro_search=request.POST.get('Search')
         list=Products.objects.filter(book_title__icontains=pro_search)
@@ -1792,6 +2028,7 @@ def admin_productslist(request):
 def admin_addmultiple_image(request):
     prod_id=request.GET.get("prod_id")
     if request.method =="POST":
+        prod_id=request.GET.get("prod_id")
         multi_imge=request.FILES.getlist('multi_imge')
         print(multi_imge,'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
         prod_id=request.GET.get("prod_id")
@@ -1804,7 +2041,7 @@ def admin_addmultiple_image(request):
                 prod_img_key=prod_obj,
                 multiple_image=i,
                 )
-        return redirect('admin_productslist')
+        return redirect('admin_editproducts')
     return render(request,'admin_addmultiple_image.html')
 
 
@@ -1819,7 +2056,7 @@ def admin_editmultiple_image(request):
                 os.remove(multi_imge_obj.multiple_image.path)
             multi_imge_obj.multiple_image = request.FILES.get('mul_img_obj')
             multi_imge_obj.save()
-        return redirect('admin_productslist')
+        return redirect('admin_editproducts')
     multi_imge_obj=Productimages.objects.get(id=uid)   
     return render(request,'admin_editmultiple_image.html',{'multi_imge_obj':multi_imge_obj})
 
@@ -1828,7 +2065,7 @@ def admin_delete_multipleimage(request):
     uid=request.GET.get('uid')
     mulimg=Productimages.objects.get(id=uid)
     mulimg.delete()
-    return redirect('admin_productslist')
+    return redirect('admin_editproducts')
 
 
 
@@ -1913,7 +2150,7 @@ def admin_addvariantoptions(request):
         
         
         Variantoptions.objects.create(unit=varop_unit,voption_vartaint_key=var_obj,voption_prod_key=prod_varoption,variantoption_name=variantoption_name,price=variantoption_price,product_stock=variantoption_stock)
-        return redirect('admin_productslist')
+        return redirect('admin_editproducts')
 
     variant=Variants.objects.all()
     uid = request.GET.get('uid')
@@ -2075,8 +2312,81 @@ def admin_addVedioBanner(request):
     return render(request,'admin_addVediobanner.html')
 
 
+def admin_editbanner(request):
+
+    if request.method == "POST":
+        uid=request.GET.get('uid')
+        ban_obj=BannerVedio.objects.get(id=uid)
+        ban_obj.description=request.POST.get('des')
+        img = request.FILES.get('img')
+
+        if len(img) !=0:
+            if len(ban_obj.banVedio) >0:
+                os.remove(ban_obj.banVedio.path)
+            ban_obj.banVedio = request.FILES.get('img')
+        ban_obj.save()
+        return redirect('adnin_VedioBannerList')
+    uid=request.GET['uid']
+    ban=BannerVedio.objects.get(id=uid)
+    return render(request,'admin_editVedioBanner.html',{'ban':ban})
+
+
+
+
 def user_aboutus(request):
     return render(request,'user_aboutus.html')
 
 def user_contact(request):
     return render(request,'user_contact.html')
+
+def user_wishlist(request):
+    user=request.session['user_email']
+    prod_id=request.GET['uid']
+    varop_id=request.GET['variant_option_id']
+    user_obj=Userdetails.objects.get(user_email=user)
+    prod_obj=Products.objects.get(id=prod_id)   
+    varop_obj=Variantoptions.objects.get(id=varop_id)
+    try:
+        u_create=Wishlist.objects.filter(wish_user_key=user_obj)
+    except Wishlist.DoesNotExist:
+        Wishlist.objects.create(wish_user_key=user_obj,wish_varoptio_key=varop_obj,wish_prod_key=prod_obj)
+        # wish_obj=Wishlist.objects.all()
+        # context={
+        #     'wish_obj':wish_obj
+        #         }
+        # return render(request,'user_wishlist.html',context)
+    try:
+        prod_obj_inwish=u_create.get(wish_user_key=user_obj,wish_varoptio_key=varop_obj,wish_prod_key=prod_obj)
+    except Wishlist.DoesNotExist:
+        Wishlist.objects.create(wish_user_key=user_obj,wish_varoptio_key=varop_obj,wish_prod_key=prod_obj)
+
+    wish_obj=Wishlist.objects.all()
+    context={
+        'wish_obj':wish_obj
+    }
+    return redirect('total_wishlist')
+
+def total_wishlist(request):
+    user=request.session['user_email']
+    user_obj=Userdetails.objects.get(user_email=user)
+    wish_obj=Wishlist.objects.filter(wish_user_key=user_obj)
+    context={
+        'wish_obj':wish_obj
+    }
+    return render(request,'user_wishlist.html',context)
+
+def remove_product_inwish(request):
+    user=request.session['user_email']
+    uid=request.GET.get('uid')
+    prod_obj=Variantoptions.objects.get(id=uid)
+    user_obj=Userdetails.objects.get(user_email=user)
+    wish_obj=Wishlist.objects.get(wish_varoptio_key=prod_obj,wish_user_key=user_obj)
+    wish_obj.delete()
+
+    return redirect('total_wishlist')
+
+
+
+
+def discount_showing(request):
+    return JsonResponse

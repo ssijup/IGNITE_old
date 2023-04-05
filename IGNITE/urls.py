@@ -4,6 +4,8 @@ from django.urls import path,include
 from django.views.generic import TemplateView
 from . import settings
 from django.conf.urls.static import static
+from products.views import view_404_error
+
 
 
 urlpatterns = [
@@ -19,3 +21,5 @@ urlpatterns = [
 #if settings.DEBUG:
     #urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
+
+handler404 = 'products.views.view_404_error'

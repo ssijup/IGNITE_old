@@ -22,28 +22,28 @@
                             
                             
                            <a href="{% url 'admin_addproducts' %}"><button type="submit"
-                             class="btn bg-gradient-primary btn-block btn-lg gradient-custom-2 text-white">Add Product</button>
+                             class="btn bg-gradient-primary  btn-lg gradient-custom-2 text-white">Add Product</button>
                             </a>
 
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered " id="" width="100%" cellspacing="0">
                                     <thead>
                                         <tr class=" text-dark">
 
-
+                                            <th>SI.NO</th>
                                             <th>Product Name</th>
                                             <th>Image</th>
-                                            <th>Image</th>
-                                            <th>Images</th>
-                                            <th>Add Imges</th>
+                                            
+                                            <!-- <th>Images</th>
+                                            <th>Add Imges</th> -->
                                             <th>Parent Category</th>
                                             <th> Subcategory</th>
                                             <th>Variant List</th>
-                                            <th>Add Variant Option</th>
+                                            <!-- <th>Add Variant Option</th> -->
                                             <th>Edit Product</th>
-                                            <th>Edit Product Variants</th>
+                                            <!-- <th>Edit Product Variants</th> -->
                                             <th>Delete Product</th>
 
                                            
@@ -117,10 +117,10 @@
   <tbody>
                                         {% for i in list %}
                                         <tr>
-                                            <td>{{ i.id }}</td>
+                                            <td>{{i.id}}</td>
                                             <td>{{ i.book_title }}</td>
                                             <td><img src="{{i.image.url}}" style="height: 50px; width:50px;"></td>
-                                            <td>
+                                            <!-- <td>
                                                 <ul>
                                                     {% for i in i.get_multipleimages %}
                                                     <li><img src="{{i.multiple_image.url}}" style="height: 50px; width:50px; margin-bottom: 10px;"></li>
@@ -130,54 +130,62 @@
                                                             Delete</a>
                                                     {% endfor %}
                                                 </ul>                            
-                                            </td>
+                                            </td> -->
 
-                                            <td >
+                                            <!-- <td >
                                                
                                                     <button ><a href="{%url 'admin_addmultiple_image'%}?prod_id={{i.id}}" class="modal-close waves-effect waves-green btn-flat" style="color: blue;">Addimg</a></button>
                                                   
                                                 
                                             </td>
-                                            
-                                            <td>{{ i.p_category.cate_name }}</td>
+                                             -->
+
+
+
+                                             <td>{{ i.p_category.cate_name }}</td>
                                             <td>{{ i.p_subcategory_for.subcategory_name }}</td>
-                                            <td>
-                                                <ul>
+                                            <!-- <td> -->
+                                                <!--<ul>
                                                     {% for each in i.get_variant_options %}
                                                     <li>{{each.variantoption_name}}{{each.unit}}, ₹{{each.price}}, qty:{{each.product_stock}}</li>
-                                                   
-                                                        <a  href ="{% url 'admin_editproduct_variantoptions'  %}?uid={{ each.id }}" >
-                                                            Edit</a>
-                                                            <a style="color: red;"  href ="{% url 'admin_deleteproduct_variantoptions'  %}?uid={{ each.id }}" >
-                                                                Delete</a>
-        
-                                                          
+                    
                                                     {% endfor %}
                                                 </ul>
-                                            </td>                                           
-                                            <td >
+                                            </td>    
+                                             -->
+                                            
+                                             <td>
+                                                <select>
+                                                  {% for each in i.get_variant_options %}
+                                                    <option value="{{ each.variantoption_name }}{{ each.unit }}"> {{ each.variantoption_name }}{{ each.unit }}, ₹{{ each.price }}, qty:{{ each.product_stock }} </option>
+                                                  {% endfor %}
+                                                </select>
+                                              </td>
+                                              
+
+                                            <!-- <td >
                                                 <a class="waves-effect waves-light btn modal-trigger" href="{% url 'admin_addvariantoptions' %}?uid={{ i.id }}"><i class="material-icons " style="color: rgb(4, 122, 248);">add</i>Variant Option</a>
+                                                -->
 
-
-                                                <td >
+                                                <td > 
                                                 <div class="modal-footer">
-                                                    <button ><a href="{%url 'admin_editproducts'%}?uid={{i.id}}" class="modal-close waves-effect waves-green btn-flat" style="color: blue;">EDIT</a></button>
+                                                    <button  class='btn btn-primary btn-sm'><a style="color: aliceblue;" href="{%url 'admin_editproducts'%}?uid={{i.id}}" class="" >EDIT</a></button>
                                                   </div>
                                                 </div>
                                             </td>
 
 
-                                            <td >
+                                            <!-- <td >
                                                 <div class="modal-footer">
                                                     <button ><a href="{%url 'admin_editproduct_variantoptions'%}?uid={{i.id}}" class="modal-close waves-effect waves-green btn-flat" style="color: blue;">EDIT</a></button>
                                                   </div>
                                                 </div>
-                                            </td>
+                                            </td> -->
 
 
                                             <td >
                                                 <div class="modal-footer">
-                                                    <button ><a href="{%url 'admin_deleteproduct'%}?uid={{i.id}}" class="modal-close waves-effect waves-green btn-flat" style="color: blue;">Delete</a></button>
+                                                    <button  class='btn btn-danger btn-sm'><a style="color: aliceblue;" href="{%url 'admin_deleteproduct'%}?uid={{i.id}}" class="modal-close waves-effect waves-green btn-flat" style="color: blue;">Delete</a></button>
                                                   </div>
                                                 </div>
                                             </td>
@@ -185,6 +193,7 @@
                                         </tr>
                                         
                                         {% endfor %}
+                                        
                                         
                                          <!--- <tr>
                                             <td>Garrett Winters</td>
@@ -648,5 +657,27 @@
 
             <!-- Footer -->
             
+            <script>
+                function prod_del(){
+                    Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+})
+                }
+            </script>
+
 
 {% endblock %}

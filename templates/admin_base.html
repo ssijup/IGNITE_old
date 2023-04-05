@@ -31,7 +31,10 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/package@version/file"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@/3.0.2dist/Chart.min.js"></script> -->
 
-    
+    <!-- swertalert link  -->
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <script src="sweetalert2.all.min.js"></script>
 
 
 </head>
@@ -45,7 +48,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
                 <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div> -->
@@ -119,6 +122,12 @@
                     <span>Coupon</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'adnin_VedioBannerList' %}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Banners</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -149,10 +158,13 @@
                     </form>
 
                     <!-- Topbar Search -->
+
+                    {% if siju %}
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">    
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
@@ -161,6 +173,7 @@
                             </div>
                         </div>
                     </form>
+                    {% endif %}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

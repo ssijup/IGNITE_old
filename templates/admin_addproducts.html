@@ -27,33 +27,29 @@
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-5">ADD product</h2>
 
-              <form action="" method="POST" enctype="multipart/form-data">
+              <form action="" method="POST" onsubmit="return fullvalidate()" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <div class="form-outline mb-2">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="product_name"/>
+                  <h6 class="" id="name_err" style="color: red;"></h1>
+                  <input required type="text" onkeyup="prodname()" id="reg-name" class="form-control form-control-lg" name="product_name"/>
                   <label class="form-label text-secondary" for="form3Example1cg"> Enter product Name</label>
                 </div>
-                <!-- <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="author"/>
-                  <label class="form-label text-secondary" for="form3Example1cg">Author/Brand</label>
-                </div> -->
-                <!-- <div class="form-outline mb-4">
-                  <input type="number" id="form3Example1cg" class="form-control form-control-lg" name="product_stock"/>
-                  <label class="form-label text-secondary" for="form3Example1cg">Enter the stock</label>
-                </div> -->
+                
+
+
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="product_description"/>
+                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="product_description"/>
                   <label class="form-label text-secondary" for="form3Example1cg">Description</label>
                 </div>
+
+
                 <div class="form-outline mb-4">
-                  <input  type="file" id="form3Example1cg" class="form-control form-control-lg" name="product_image">
+                  <input required type="file" id="form3Example1cg" class="form-control form-control-lg" name="product_image">
                   <label class="form-label text-secondary" for="form3Example1cg">Upload Image</label>
                 </div>
-                <!-- <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="product_category"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter the Price of Product</label>
-                </div> -->
+                
+
                 
                 <div class="form-outline mb-4">
                   <select class="form-control" id="exampleFormControlSelect1" name="product_category">
@@ -63,6 +59,9 @@
                   </select>
                   <label class="form-label text-secondary" for="form3Example1cg">Select Category</label>
                 </div>
+
+
+
                 <div class="form-outline mb-4">
                   <select class="form-control" id="exampleFormControlSelect1" name="product_subcategory">
                     {% for i in subcate %}
@@ -71,40 +70,16 @@
                   </select>
                   <label class="form-label text-secondary" for="form3Example1cg">Select Subcategory</label>
                 </div>
-                <!-- <div class="form-outline mb-4">
-                  <select class="form-control" id="exampleFormControlSelect1" name="product_variant">
-                    {% for i in variant %}
-                    <option>{{ i.varient_name }}</option>
-                    {% endfor %}
-                  </select>
-                  <label class="form-label text-secondary" for="form3Example1cg">Select Variants </label>
-                </div>
-                <div class="form-outline mb-4">
-                  <select class="form-control" id="exampleFormControlSelect1" multiple name="product_variantoption">
-                    {% for i in variant_option %}
-                    <option>{{ i.variantoption_name }}</option>
-                    {% endfor %}
-                  </select>
-                  <label class="form-label text-secondary" for="form3Example1cg">Select the Varients Option</label>
-                </div> -->
                 
 
-               <!-- <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
-                  <label class="form-label" for="form3Example4cdg">Repeat your password</label>
-                </div>
 
-                <div class="form-check d-flex justify-content-center mb-5">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-                  <label class="form-check-label" for="form2Example3g">
-                    I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-                  </label>
-                </div>--->
 
                 <div class="d-flex justify-content-center">
-                  <button type="submit" value="Submit"
+                  <button onclick="prodname()" type="submit" value="Submit"
                     class="btn btn-info btn-block btn-lg gradient-custom-4 text-body">Add</button>
                 </div>
+
+
 
                 <p class="text-center text-muted mt-5 mb-0"><a href="#!"
                     class="fw-bold text-body"><u></u></a></p>
@@ -118,6 +93,37 @@
     </div>
   </div>
 </section>
+
+
+<!-- form validation -->
+<script>
+
+function fullvalidate(){
+  if (prodname()){
+    return true
+  }
+  else {
+    return false
+  }
+}
+
+  function prodname(){
+    let name=document.getElementById('reg-name').value;
+            console.log(name)
+        
+            if (name.trim() === '' || name.length <3){
+                document.getElementById('name_err').innerHTML='Please enter atleast three letter for the product name'
+                return false
+            }else{
+                document.getElementById("name_err").innerHTML = "";
+                return true
+            }
+  }
+
+</script>
+
+
+
 
 <script defer src="https://cdn.crop.guide/loader/l.js?c=GRYDWB"></script>
 </body>

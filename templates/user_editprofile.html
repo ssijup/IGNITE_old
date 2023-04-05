@@ -117,14 +117,14 @@
                                                 <a data-modal="modal" data-modal-id="#dash-newsletter">Subscribe Newsletter</a></div> -->
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <form class="dash-edit-p" method="POST">
+                                                    <form class="dash-edit-p" onsubmit="return fullvalidate()" method="POST">
                                                         {% csrf_token %}
                                                         <div class="gl-inline">
                                                             <div class="u-s-m-b-30">
 
                                                                 <label class="gl-label" for="reg-fname">NAME *</label>
-
-                                                                <input name="uname" class="input-text input-text--primary-style" type="text" id="reg-fname" value="{{uprofile.user_name}}"></div>
+                                                                <h5 class="" id="name_r" style="color: red;"></h5>
+                                                                    <input id="name" onkeyup="namevalidation()" name="uname" class="input-text input-text--primary-style" type="text" value="{{uprofile.user_name}}"></div>
                                                             <!-- <div class="u-s-m-b-30">
 
                                                                 <label class="gl-label" for="reg-lname">LAST NAME *</label>
@@ -174,7 +174,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <button class="btn btn--e-brand-b-2" type="submit">SAVE</button>
+                                                        <button onclick="namevalidation()" class="btn btn--e-brand-b-2" type="submit">SAVE</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -192,5 +192,41 @@
 
         <!--====== Main Footer ======-->
         
+
+        <script>
+            function namevalidation() {
+  let name = document.getElementById("name").value;
+  let name_error = document.getElementById("name_r");
+
+  // Regex pattern to match only alphabets
+  let letters = /^[A-Za-z]+$/;
+
+  if (name.trim() === "") {
+    name_error.innerHTML = "Name cannot be blank";
+    return false;
+  } else if (!name.match(letters)) {
+    name_error.innerHTML = "Please enter a valid name with alphabets only";
+    return false;
+  } else if (name.length < 3) {
+    name_error.innerHTML = "Name should have at least 3 letters";
+    return false;
+  } else {
+    name_error.innerHTML = "";
+    return true;
+  }
+}
+
+            function fullvalidate(){
+                if (namevalidation()){
+                    return true
+                }
+                else{
+                    return false
+                }
+           
+                 }
+                
+            
+        </script>
 
 {% endblock %}

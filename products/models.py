@@ -278,6 +278,9 @@ class Order(models.Model):
     order_payment_key=models.ForeignKey(Payment,on_delete=models.CASCADE,blank=True,null=True)
     ordered_product_quantity=models.PositiveIntegerField(null=True,blank=True)
     ordered_product_price=models.PositiveIntegerField(null=True,blank=True)
+    # variant_name=models.CharField()
+
+
     
 
     def __str__(self): 
@@ -296,6 +299,10 @@ class BannerVedio(models.Model):
 
 
 
+class Wishlist(models.Model):
+    wish_prod_key=models.ForeignKey(Products,on_delete=models.CASCADE)
+    wish_varoptio_key=models.ForeignKey(Variantoptions,on_delete=models.CASCADE)
+    wish_user_key=models.ForeignKey(Userdetails,on_delete=models.CASCADE)
 
 
 

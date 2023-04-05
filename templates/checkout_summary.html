@@ -22,10 +22,10 @@
                                 <ul class="breadcrumb__list">
                                     <li class="has-separator">
 
-                                        <a href="index.html">Home</a></li>
+                                        <a href="{% url 'index_3_home' %}">Home</a></li>
                                     <li class="is-marked">
 
-                                        <a href="checkout.html">Checkout</a></li>
+                                        <a href="">Checkout</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                                                             <span class="o-card__quantity">{{ i.c_product_vatiantoption_key.voption_vartaint_key }}: {{ i.c_product_vatiantoption_key.variantoption_name }}</span>
 
 
-                                                            <span class="o-card__price">{% if i.product.p_category.catewise_dicount_price %} <h5 style='color: rgb(0, 0, 0);'>₹{{i.c_product_vatiantoption_key.discount_price}}</h2> {% else %}<h2 style='color: orangered;'>₹{{i.c_product_vatiantoption_key.price}}</h2> {% endif %}</span></div>
+                                                            <span class="o-card__price">{% if i.product.p_category.catewise_dicount_price %} <h2 style='color:orangered;'>₹{{i.c_product_vatiantoption_key.discount_price}}</h2> {% else %}<h2 style='color: orangered;'>₹{{i.c_product_vatiantoption_key.price}}</h2> {% endif %}</span></div>
                                                     </div>
 
                                                     <a class="o-card__del far fa-trash-alt"></a>
@@ -279,7 +279,7 @@
                                                     {% endif %}
                                                     {% if cou_applied %}
                                                     <div>
-                                                        <h3 style="color: red;">x
+                                                        <h3 style="color: red;">
                                                             {{cou_applied}}
                                                         </h5>
                                                     </div>
@@ -320,13 +320,19 @@
                                                         </tr>
                                                         <tr>
                                                             <td>TAX</td>
-                                                            <td>₹ 0/-</td>
+                                                            <td>FREE</td>
                                                         </tr>
+                                                        {% if dis_amt %}
+                                                        <tr>
+                                                            <td>Discount Applied</td>
+                                                            <td>₹ {{dis_amt}}</td>
+                                                        </tr>
+                                                        {% endif %}
                                                         <tr>
                                                             <td>SUBTOTAL</td>
                                                             <td>₹ {{total_amount}}/-</td>
                                                         </tr>
-                                                        <tr>
+                                                        <tr>dis_amt
                                                             <td>GRAND TOTAL</td>
                                                             <td>₹ {{total_amount}}/-</td>
                                                         </tr>

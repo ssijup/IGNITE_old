@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="{% static 'images/favicon.png' %}" rel="shortcut icon">
-    <title>Ludus - Electronics, Apparel, Computers, Books, DVDs & more</title>
+    <title>Ignify-Gym Equipnments,Suppliments,Books</title>
 
     <!--====== Google Font ======-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
@@ -28,11 +28,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 
-  
+  <!-- link of sweertalret -->
 
     <link type="text/css" rel="stylesheet" href="magiczoom/magiczoom.css"/>
     <script type="text/javascript" src="magiczoom/magiczoom.js"></script>
 
+    <!-- sucess msg bootsrap -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+<!-- cript for font awsem for wishlist heart -->
 
   <script>
     window.onload = function() {
@@ -56,7 +64,28 @@
   </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<style>
+ .wishlist-button {
+  background-color: transparent;
+  border: none;
+  color: orangered;
+  font-size: 18px;
+  padding: 0;
+}
 
+.wishlist-button.active i {
+  color: #ff0000;
+  background-color: #ff0000;
+}
+
+.wishlist-button:hover {
+  cursor: pointer;
+}
+
+
+
+
+</style>
 </head>
 <body class="config">
     <div class="preloader is-active">
@@ -80,9 +109,9 @@
 
                         <!--====== Main Logo ======-->
 
-                        <a class="main-logo" href="index.html">
+                        <a class="main-logo" href="{% url 'index_3_home' %}">
 
-                            <img src="{% static 'D:\BROCAMB PROJECTS\WEEK 8\PROJECTS\sample ignite\sampleignite\media\virat_kohli_xJWQdcv.jpg' %}" alt=""></a>
+                            <img src="{% static '/images/logo/logo -1.png' %}" alt=""></a>
                         <!--====== End - Main Logo ======-->
 
 
@@ -160,18 +189,18 @@
                         <!--====== Dropdown Main plugin ======-->
                         <div class="menu-init" id="navigation1">
 
-                            <button class="btn btn--icon toggle-mega-text toggle-button" type="button">M</button>
+                            <!-- <button class="btn btn--icon toggle-mega-text toggle-button" type="button">I</button> -->
 
                             <!--====== Menu ======-->
                             <div class="ah-lg-mode">
 
-                                <span class="ah-close">✕ Close</span>
+                                <!-- <span class="ah-close">✕ Close</span> -->
 
                                 <!--====== List ======-->
                                 <ul class="ah-list">
                                     <li class="has-dropdown">
 
-                                        <span class="mega-text">I</span>
+                                        <!-- <span class="mega-text">I</span> -->
 
                                         <!--====== Mega Menu ======-->
 
@@ -252,7 +281,7 @@
                                         <a href="{% url 'index_3_home' %}"><i class="fas fa-home"></i></a></li>
                                     <li>
 
-                                        <a ><i class="far fa-heart"></i></a></li>
+                                        <a href="{% url 'total_wishlist' %}" ><i class="far fa-heart"></i></a></li>
                                     <li class="has-dropdown">
                                         {% block cartdrop %}
                                         {% endblock %}
@@ -273,7 +302,7 @@
 
                                                             <a class="mini-product__link" href="product-detail.html">
 
-                                                                <img class="u-img-fluid" src="{{ i.product.image.url }}" alt=""></a>
+                                                                <img class="u-img-fluid" style="height:80px" src="{{ i.product.image.url }}" alt=""></a>
                                                             </div>
                                                         <div class="mini-product__info-wrapper">
 
@@ -287,10 +316,10 @@
 
                                                             <span class="mini-product__quantity">qty: {{ i.quantity }}</span>
 
-                                                            <span class="mini-product__price">₹ {{ i.product.p_variantoption_for.price }}/-</span></div>
+                                                            <span class="mini-product__price">{% if i.product.p_category.catewise_dicount_price %} <h4 style='color: orangered;'>₹{{i.c_product_vatiantoption_key.discount_price}}</h2>  {% else %}<h4 style='color: orangered;'>₹{{i.c_product_vatiantoption_key.price}}</h4> {% endif %}</span></div>
                                                     </div>
 
-                                                    <a class="mini-product__delete-link far fa-trash-alt"></a> 
+                                                    <!-- <a class="mini-product__delete-link far fa-trash-alt"></a>  -->
                                                 </div>
                                                     {% endfor %} 
                                                 <!--====== End - Card for mini cart ======-->
@@ -309,11 +338,11 @@
                                             {% if cart_len %}
                                             <div class="mini-product-stat">
                                                
-                                                <div class="mini-total">
+                                                <div class="mini-total " style="justify-content: center;" >
 
-                                                    <span class="subtotal-text">SUBTOTAL</span>
+                                                    <span class="subtotal-text">SUBTOTAL : </span>
 
-                                                    <span class="subtotal-value">₹ {{ total_amount }}/-</span>
+                                                    <span class="subtotal-value" style="color:orangered">₹{{ total_price }}/-</span>
                                                 </div>
                                                 <div class="mini-action">
 
@@ -449,7 +478,7 @@
         
                                             <span>Copyright © 2023</span>
         
-                                            <a href="index.html">IGNIFY</a>
+                                            <a href="{% url 'index_3_home' %}">IGNIFY</a>
         
                                             <span>All Right Reserved</span></div>
                                         <div class="lower-footer__payment">
@@ -556,16 +585,16 @@
                                             <div>
                                                 <div class="pd-detail__inline">
         
-                                                    <span class="pd-detail__price">$6.99</span>
+                                                    <span class="pd-detail__price">₹6999</span>
         
-                                                    <span class="pd-detail__discount">(76% OFF)</span><del class="pd-detail__del">$28.97</del></div>
+                                                    <span class="pd-detail__discount">(76% OFF)</span><del class="pd-detail__del">₹797</del></div>
                                             </div>
                                             <div class="u-s-m-b-15">
                                                 <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
         
                                                     <span class="pd-detail__review u-s-m-l-4">
         
-                                                        <a href="product-detail.html">23 Reviews</a></span></div>
+                                                        <a href="product-detail.html"></a></span></div>
                                             </div>
                                             <div class="u-s-m-b-15">
                                                 <div class="pd-detail__inline">

@@ -49,9 +49,9 @@
     
                             <!--====== Main Logo ======-->
     
-                            <a class="main-logo" href="index.html">
+                            <a class="main-logo" href="{% url 'index_3_home' %}">
     
-                                <img src="{% static 'D:\BROCAMB PROJECTS\WEEK 8\PROJECTS\sample ignite\sampleignite\media\virat_kohli_xJWQdcv.jpg' %}" alt=""></a>
+                                <img src="{% static '/images/logo/logo -1.png' %}" alt=""></a>
                             <!--====== End - Main Logo ======-->
     
     
@@ -139,7 +139,7 @@
                             <!--====== Dropdown Main plugin ======-->
                             <div class="menu-init" id="navigation1">
     
-                                <button class="btn btn--icon toggle-mega-text toggle-button" type="button">M</button>
+                                <!-- <button class="btn btn--icon toggle-mega-text toggle-button" type="button">M</button> -->
     
                                 <!--====== Menu ======-->
                                 <div class="ah-lg-mode">
@@ -150,7 +150,7 @@
                                     <ul class="ah-list">
                                         <li class="has-dropdown">
     
-                                            <span class="mega-text">M</span>
+                                            <!-- <span class="mega-text">M</span> -->
     
                                             <!--====== Mega Menu ======-->
     
@@ -231,7 +231,7 @@
                                             <a href="{% url 'index_3_home' %}"><i class="fas fa-home"></i></a></li>
                                         <li>
     
-                                            <a ><i class="far fa-heart"></i></a></li>
+                                            <a href="{% url 'total_wishlist' %}" ><i class="far fa-heart"></i></a></li>
                                         <li class="has-dropdown">
     
                                             <!-- <a  class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i>
@@ -424,7 +424,7 @@
                                 <div class="promotion-o">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img" src="{% static '/images/dumbell.jfif' %}" alt=""></div>
+                                        <img class="aspect__img" src="{% static '/images/ban1.jpg' %}" alt=""></div>
                                     <div class="promotion-o__content">
 
                                         <a class="promotion-o__link btn--e-white-brand" href="{% url 'shop_list_left_books' %}">GYM EQUIPMENTS</a></div>
@@ -434,7 +434,7 @@
                                 <div class="promotion-o">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img" src="{% static '/images/gbook1.jpg' %}" alt=""></div>
+                                        <img class="aspect__img" src="{% static '/images/banbook.jpg' %}" alt=""></div>
                                     <div class="promotion-o__content">
 
                                         <a class="promotion-o__link btn--e-white-brand" href="{% url 'shop_list_left_books' %}">PHYSI BOOKS</a></div>
@@ -444,7 +444,7 @@
                                 <div class="promotion-o">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img" src="{% static '/images/gsup1.jfif' %}" alt=""></div>
+                                        <img class="aspect__img" src="{% static '/images/bansupp.webp' %}" alt=""></div>
                                     <div class="promotion-o__content">
 
                                         <a class="promotion-o__link btn--e-white-brand" href="{% url 'shop_list_left_books' %}">SUPPLIMENTS</a></div>
@@ -582,12 +582,12 @@
                                                 <!-- <li>
 
                                                     <a data-modal="modal" data-modal-id="#quick-look"><i class="fas fa-search-plus"></i></a></li> -->
-                                                <li>
+                                                <!-- <li> -->
 
-                                                    <a data-modal="modal" data-modal-id="#add-to-cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                <li>
+                                                    <!-- <a data-modal="modal" data-modal-id="#add-to-cart"><i class="fas fa-plus-circle"></i></a></li> -->
+                                                <!-- <li> -->
 
-                                                    <a href=""><i class="fas fa-heart"></i></a></li>
+                                                    <!-- <a href=""><i class="fas fa-heart"></i></a></li> -->
                                                 <!-- <li>
 
                                                     <a href="signin.html"><i class="fas fa-envelope"></i></a></li> -->
@@ -598,12 +598,12 @@
 
                                         <span class="product-r__category">
 
-                                            <a href="shop-side-version-2.html">{{i.p_category.cate_name}}</a></span>
+                                            <a href="{% url 'product_details' %}?uid={{i.id}}">{{i.p_category.cate_name}}</a></span>
                                         <div class="product-r__n-p-wrap">
 
                                             <span class="product-r__name">
 
-                                                <a href="product-detail.html">{{i.book_title}}</a></span>
+                                                <a href="{% url 'product_details' %}?uid={{i.id}}">{{i.book_title}}</a></span>
 
                                             <span class="product-r__price">₹{{i.get_default_price.price}}</span></div>
                                             {% if i.description|length > 100 %}
@@ -902,7 +902,7 @@
 
                                                             <img class="aspect__img" src="{{i.image.url}}" alt=""></a>
                                                         <div class="product-bs__action-wrap">
-                                                            <ul class="product-bs__action-list">
+                                                            <!-- <ul class="product-bs__action-list">
                                                                 <li>
 
                                                                     <a data-modal="modal" data-modal-id="#quick-look"><i class="fas fa-search-plus"></i></a></li>
@@ -915,7 +915,7 @@
                                                                 <li>
 
                                                                     <a href="signin.html"><i class="fas fa-envelope"></i></a></li>
-                                                            </ul>
+                                                            </ul> -->
                                                         </div>
                                                     </div>
 
@@ -926,13 +926,15 @@
                                                     <span class="product-bs__name">
 
                                                         <a href="product-detail.html">{{i.p_category.cate_name}}</a></span>
+
                                                     <div class="product-bs__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
 
-                                                        <span class="product-bs__review">(23)</span></div>
+                                                        <!-- <span class="product-bs__review"></span> -->
+                                                    </div>
 
-                                                    <span class="product-bs__price">$125.00
+                                                    <span class="product-bs__price">₹{{i.get_default_price.price}}
 
-                                                        <span class="product-bs__discount">$160.00</span></span>
+                                                        <!-- <span class="product-bs__discount">$160.00</span></span> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1886,7 +1888,7 @@
 
                                             <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
 
-                                                <a href="signin.html">Add to Wishlist</a>
+                                                <a href="{% url 'total_wishlist' %}">Add to Wishlist</a>
 
                                                 <span class="pd-detail__click-count">(222)</span></span></div>
                                     </div>

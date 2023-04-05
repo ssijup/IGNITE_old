@@ -1,7 +1,7 @@
 <div class="">
     <span class="">
     {% if page.has_previous %}
-    <a href="?page={{ page.previous_page_number }}">Previous</a>
+    <button class="s-insta--bgcolor-hover" ><a href="?page={{ page.previous_page_number }}" >Previous</a></button>
     {% endif %}
 
     <span class="">
@@ -9,7 +9,7 @@
     </span>
 
     {% if page.has_next %}
-    <a href="?page={{ page.next_page_number }}">Next</a>
+    <button class="s-insta--bgcolor-hover "><a href="?page={{ page.next_page_number }}">Next</a></button>
     {% endif %}
     </span>
 </div>

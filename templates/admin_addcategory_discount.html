@@ -19,9 +19,10 @@
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-5">Add Coupon</h2>
+              <h2 class="text-uppercase text-center mb-5">Add Offer</h2>
+              <h4>For category <strong style="color: red;">{{cat_obj.cate_name}}</strong></h4>
 
-              <form action="" method="POST" enctype="">
+              <form action="" method="POST">
                 {% csrf_token %}
                 {% if error_v %}
                   <div>
@@ -30,29 +31,11 @@
                   {% endif %}
                <div class="form-outline mb-4">
 
-                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="coupon_name"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter Coupon Name</label>
+                  <input required type="number" id="form3Example1cg" class="form-control form-control-lg" name="off_price"/>
+                  <label class="form-label text-secondary" for="form3Example1cg"> Enter Offer Price</label>
                   
                 </div>
-                <div class="form-outline mb-4">
-
-                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="coupon_dis_amount"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter amount</label>
-                  
-                </div>
-                <div class="form-outline mb-4">
-
-                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="coupon_min_amount_req"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter minium Amount</label>
-                  
-                </div>
-                <!-- <div class="form-outline mb-4">
-
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="varient"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter amount</label>
-                  
-                </div>
-               -->
+                
 
             <div class="d-flex justify-content-center">
                   <button type="submit" value="Submit"
