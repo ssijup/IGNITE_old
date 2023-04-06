@@ -1639,7 +1639,8 @@ def place_order(request):
            
         elif payment_method=='Razor Pay':
                 razorpay_amount=int(totalamount)*100
-                return render(request,'razorpay_payment.html',{'razorpay_amount':razorpay_amount,'payment_method':payment_method})
+                raz=razorpay_amount/100
+                return render(request,'razorpay_payment.html',{'raz':raz,'razorpay_amount':razorpay_amount,'payment_method':payment_method})
                 
                 
         try:

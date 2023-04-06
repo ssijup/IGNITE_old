@@ -25,10 +25,10 @@
                                 <ul class="breadcrumb__list">
                                     <li class="has-separator">
 
-                                        <a href="index.html">Home</a></li>
+                                        <a href="{% url 'index_3_home' %}">Home</a></li>
                                     <li class="is-marked">
 
-                                        <a href="signin.html">Signin</a></li>
+                                       
                                 </ul>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="section__text-wrap">
-                                    <h1 class="section__heading u-c-secondary">PAY 000 RAZOR PAY</h1>
+                                    <h1 style="color:orangered;" class="section__heading u-c-secondary">PAY  <strong style="color: orangered;"> ₹{{raz}}</strong> USING RAZOR PAY</h1>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                         <div class="row row--center">
                             <div class="col-lg-6 col-md-8 u-s-m-b-30">
                                 <div class="l-f-o">
-                                    <div class="l-f-o__pad-box">
+                                    <div class="l-f-o__pad-box ">
                                         <!-- <h1 class="gl-h1">I'M NEW CUSTOMER</h1>
 
                                         <span class="gl-text u-s-m-b-30">By creating an account with our store, you will be able to move through the checkout process faster, store shipping addresses, view and track your orders in your account and more.</span> -->
@@ -74,6 +74,10 @@
                                         <!-- <span class="gl-text u-s-m-b-30">If you have an account with us, please log in.</span> -->
                                         <form class="l-f-o__form" method ="POST">
                                             {% csrf_token %}
+                                            <div class="u-s-m-b-15 ">
+
+                                                <button style="margin-left:50% ;" id="rzp-button1" type="submit" class="l-f-o__create-link btn--e-transparent-brand-b-2" href="">PAY</button>
+                                            </div>
                                             <!-- <div class="gl-s-api">
                                                 <div class="u-s-m-b-15">
 
@@ -86,19 +90,17 @@
 
                                                         <span><a href="{% provider_login_url "google" %}">Sign in with Google</a></span></button></div>
                                             </div> -->
-                                            <div class="u-s-m-b-30">
+                                            <!-- <div class="u-s-m-b-30"> -->
 
                                                 <!-- <label class="gl-label" for="login-email">Enter your number*</label> 
 
                                                 <input name ="user_email"class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter number" ></div> -->
-                                                <div class="u-s-m-b-30">
+                                                <!-- <div class="u-s-m-b-30">
 
                                                     <label class="gl-label" for="login-email">Enter OTP*</label> 
     
-                                                    <input name ="c_otp" class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter number" ></div>
-                                                <div class="u-s-m-b-15">
-
-                                                    <button id="rzp-button1" type="submit" class="l-f-o__create-link btn--e-transparent-brand-b-2" href="">PAY</button></div>
+                                                    <input name ="c_otp" class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter number" ></div> -->
+                                               
                                             <!-- <div class="u-s-m-b-30">
 
                                                 <label class="gl-label" for="login-password">PASSWORD *</label>
